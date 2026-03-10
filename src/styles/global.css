@@ -267,6 +267,48 @@ section {
   border-color: var(--footer-border);
 }
 
+/* Footer: tipografía con Plus Jakarta Sans, alineada al hero y mejor UX */
+.footer-typography {
+  font-family: var(--font-hero);
+}
+.footer-title {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--hero-title);
+  margin-bottom: 1.25rem;
+}
+.footer-desc {
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: #334155;
+  font-weight: 500;
+}
+.footer-links {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #475569;
+  line-height: 1.6;
+}
+.footer-links a:hover {
+  color: var(--primary-dark);
+}
+.footer-contact {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #475569;
+  line-height: 1.65;
+}
+.footer-legal {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #64748b;
+  letter-spacing: 0.01em;
+}
+.footer-legal a:hover {
+  color: var(--primary-dark);
+}
+
 /* Etiquetas de sección: naranja oscuro para que resalten */
 .section-label {
   color: var(--hero-title);

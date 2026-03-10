@@ -242,8 +242,8 @@ function initAnimations() {
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
   gsap.registerPlugin(ScrollTrigger);
 
-  // Solo animar secciones que no son el hero; si incluimos #inicio, el ScrollTrigger
-  // del contenedor aplica opacity 0 y hace que los botones desaparezcan al activarse.
+  // No animar el hero (#inicio): al aplicar gsap.from con opacity 0 a sus elementos,
+  // al hacer scroll los botones pueden quedar invisibles. El hero ya se ve bien al cargar.
   const fadeUps = document.querySelectorAll('section:not(#inicio) > div');
   fadeUps.forEach((el) => {
     gsap.from(el, {
@@ -259,15 +259,8 @@ function initAnimations() {
     });
   });
 
-  const heroTargets = document.querySelectorAll('#inicio h1, #inicio p, #inicio .flex');
-  if (heroTargets.length > 0) {
-    gsap.from(heroTargets, {
-      y: 30,
-      opacity: 0,
-      stagger: 0.2,
-      duration: 1,
-      ease: 'power3.out'
-    });
-  }
+  // No animar el contenido del hero cuando GSAP se carga tras el primer scroll:
+  // gsap.from(heroTargets, { opacity: 0 }) puede dejar h1/p/botones en opacity 0
+  // al ejecutarse después de que el usuario ya haya scrolleado.
 }
 
