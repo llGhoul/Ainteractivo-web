@@ -1,14 +1,4 @@
-import { services, whyUs, testimonials } from './data.js';
-
-/** Escapa HTML para evitar rotura de layout y XSS al insertar texto en innerHTML */
-function escapeHtml(str) {
-  if (str == null || typeof str !== 'string') return '';
-  const div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
-}
-
-/** Llama a lucide.createIcons() de forma segura; se puede invocar varias veces sin problema */
+/** Llama a lucide.createIcons() de forma segura para pintar iconos (servicios, why us, testimonios se renderizan en Astro). */
 function safeCreateIcons() {
   try {
     if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
@@ -24,23 +14,178 @@ function safeCreateIcons() {
 document.addEventListener('DOMContentLoaded', () => {
   safeCreateIcons();
   initMobileMenu();
-
-  renderServices();
-  renderWhyUs();
-  renderTestimonials();
-  safeCreateIcons();
-
-  initAnimations();
-
-  const contactForm = document.getElementById('contact-form');
-  if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      alert('¡Gracias! Tu mensaje ha sido enviado exitosamente. Nos contactaremos pronto.');
-      contactForm.reset();
-    });
-  }
+  initAnimationsWhenReady();
+  initContactForm();
 });
+
+/**
+ * Carga GSAP y ScrollTrigger solo tras la primera interacción del usuario (scroll, toque, clic, tecla)
+ * para aligerar la carga inicial en móvil 3G/4G. Respeta prefers-reduced-motion.
+ */
+function initAnimationsWhenReady() {
+  const prefersReducedMotion = typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion) return;
+
+  let scheduled = false;
+  function onInteraction() {
+    if (scheduled) return;
+    scheduled = true;
+    document.removeEventListener('scroll', onInteraction, { passive: true });
+    document.removeEventListener('touchstart', onInteraction, { passive: true });
+    document.removeEventListener('click', onInteraction);
+    document.removeEventListener('keydown', onInteraction);
+    loadGsapThenRunAnimations();
+  }
+
+  document.addEventListener('scroll', onInteraction, { passive: true });
+  document.addEventListener('touchstart', onInteraction, { passive: true });
+  document.addEventListener('click', onInteraction);
+  document.addEventListener('keydown', onInteraction);
+}
+
+function loadGsapThenRunAnimations() {
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    initAnimations();
+    return;
+  }
+
+  const gsapUrl = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js';
+  const stUrl = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js';
+
+  const script1 = document.createElement('script');
+  script1.src = gsapUrl;
+  script1.async = true;
+  script1.onload = () => {
+    const script2 = document.createElement('script');
+    script2.src = stUrl;
+    script2.async = true;
+    script2.onload = () => initAnimations();
+    document.head.appendChild(script2);
+  };
+  document.head.appendChild(script1);
+}
+
+const FORMSPREE_URL = 'https://formspree.io/f/mkoqjqno';
+
+/** Validación mínima: requeridos y formato email */
+function validateContactForm(form) {
+  const name = (form.querySelector('[name="name"]') || {}).value;
+  const email = (form.querySelector('[name="email"]') || {}).value;
+  const message = (form.querySelector('[name="message"]') || {}).value;
+  const errors = {};
+
+  if (!name || String(name).trim() === '') errors.name = 'El nombre es obligatorio.';
+  if (!email || String(email).trim() === '') {
+    errors.email = 'El correo electrónico es obligatorio.';
+  } else {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) errors.email = 'Introduce un correo electrónico válido.';
+  }
+  if (!message || String(message).trim() === '') errors.message = 'El mensaje es obligatorio.';
+
+  return errors;
+}
+
+function showFieldErrors(form, errors) {
+  form.querySelectorAll('.contact-error').forEach((el) => {
+    el.classList.add('hidden');
+    el.textContent = '';
+  });
+  form.querySelectorAll('.contact-input').forEach((el) => {
+    el.classList.remove('border-red-500', 'ring-2', 'ring-red-200');
+  });
+  Object.keys(errors).forEach((field) => {
+    const errEl = form.querySelector('.contact-error[data-for="' + field + '"]');
+    const input = form.querySelector('[name="' + field + '"]');
+    if (errEl) {
+      errEl.textContent = errors[field];
+      errEl.classList.remove('hidden');
+    }
+    if (input) {
+      input.classList.add('border-red-500', 'ring-2', 'ring-red-200');
+    }
+  });
+}
+
+function showFormFeedback(form, type, html) {
+  const el = document.getElementById('form-feedback');
+  if (!el) return;
+  el.classList.remove('hidden', 'bg-green-50', 'text-green-800', 'border', 'border-green-200', 'bg-red-50', 'text-red-800', 'border-red-200');
+  el.innerHTML = html;
+  if (type === 'success') {
+    el.classList.add('bg-green-50', 'text-green-800', 'border', 'border-green-200');
+  } else {
+    el.classList.add('bg-red-50', 'text-red-800', 'border', 'border-red-200');
+  }
+  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function setSubmitLoading(loading) {
+  const btn = document.getElementById('contact-submit');
+  if (!btn) return;
+  const text = btn.querySelector('.btn-text');
+  if (loading) {
+    btn.disabled = true;
+    if (text) text.textContent = 'Enviando...';
+  } else {
+    btn.disabled = false;
+    if (text) text.textContent = 'Enviar mensaje';
+  }
+}
+
+function initContactForm() {
+  const form = document.getElementById('contact-form');
+  if (!form) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const errors = validateContactForm(form);
+    if (Object.keys(errors).length > 0) {
+      showFieldErrors(form, errors);
+      showFormFeedback(form, 'error', '<strong>Revisa los campos marcados</strong> y corrige los errores.');
+      return;
+    }
+    showFieldErrors(form, {});
+    const feedbackEl = document.getElementById('form-feedback');
+    if (feedbackEl) feedbackEl.classList.add('hidden');
+
+    setSubmitLoading(true);
+    try {
+      const formData = new FormData(form);
+      const res = await fetch(FORMSPREE_URL, {
+        method: 'POST',
+        body: formData,
+        headers: { Accept: 'application/json' }
+      });
+      const data = await res.json().catch(() => ({}));
+
+      if (res.ok && (data.ok === true || res.status === 200)) {
+        showFormFeedback(
+          form,
+          'success',
+          '<strong>Mensaje enviado.</strong> Gracias por escribirnos. Nos pondremos en contacto pronto.'
+        );
+        form.reset();
+      } else {
+        showFormFeedback(
+          form,
+          'error',
+          data.error || '<strong>No se pudo enviar.</strong> Vuelve a intentarlo más tarde.'
+        );
+      }
+    } catch (err) {
+      showFormFeedback(
+        form,
+        'error',
+        '<strong>Error de conexión.</strong> Comprueba tu conexión e inténtalo de nuevo.'
+      );
+    } finally {
+      setSubmitLoading(false);
+    }
+  });
+}
 
 function initMobileMenu() {
   const toggle = document.getElementById('menu-toggle');
@@ -93,97 +238,13 @@ function initMobileMenu() {
   });
 }
 
-function renderServices() {
-  const container = document.getElementById('services-grid');
-  if (!container || !Array.isArray(services)) return;
-
-  try {
-    services.forEach((service) => {
-      const title = escapeHtml(service.title);
-      const description = escapeHtml(service.description);
-      const color = typeof service.color === 'string' ? service.color : 'bg-blue-50 text-blue-600';
-      const icon = typeof service.icon === 'string' ? service.icon : 'box';
-
-      const card = document.createElement('div');
-      card.className =
-        'service-card bg-white p-8 rounded-3xl border border-slate-100 flex flex-col items-start gap-4';
-      card.innerHTML =
-        '<div class="w-14 h-14 ' +
-        color +
-        ' rounded-2xl flex items-center justify-center mb-2">' +
-        '<i data-lucide="' + escapeHtml(icon) + '" class="w-7 h-7"></i></div>' +
-        '<h4 class="text-xl font-bold text-slate-900">' + title + '</h4>' +
-        '<p class="text-slate-500 leading-relaxed">' + description + '</p>' +
-        '<a href="#contacto" class="text-sm font-semibold text-blue-600 mt-auto flex items-center gap-1 hover:gap-2 transition-all">' +
-        'Saber más <i data-lucide="chevron-right" class="w-4 h-4"></i></a>';
-      container.appendChild(card);
-    });
-  } catch (e) {
-    if (typeof console !== 'undefined' && console.error) console.error('renderServices:', e);
-  }
-}
-
-function renderWhyUs() {
-  const container = document.getElementById('features-list');
-  if (!container || !Array.isArray(whyUs)) return;
-
-  try {
-    whyUs.forEach((item) => {
-      const title = escapeHtml(item.title);
-      const description = escapeHtml(item.description);
-      const icon = typeof item.icon === 'string' ? item.icon : 'circle';
-
-      const feature = document.createElement('div');
-      feature.className = 'flex gap-5 group';
-      feature.innerHTML =
-        '<div class="shrink-0 w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-blue-600 group-hover:border-blue-600 transition-all duration-300">' +
-        '<i data-lucide="' + escapeHtml(icon) + '" class="w-5 h-5 text-blue-400 group-hover:text-white transition-colors"></i></div>' +
-        '<div><h4 class="text-xl font-bold mb-1">' + title + '</h4>' +
-        '<p class="text-slate-400 leading-relaxed">' + description + '</p></div>';
-      container.appendChild(feature);
-    });
-  } catch (e) {
-    if (typeof console !== 'undefined' && console.error) console.error('renderWhyUs:', e);
-  }
-}
-
-function renderTestimonials() {
-  const container = document.getElementById('testimonials-container');
-  if (!container || !Array.isArray(testimonials)) return;
-
-  const starIcon = '<i data-lucide="star" class="w-4 h-4 fill-orange-400 text-orange-400"></i>';
-  const starsHtml = starIcon + starIcon + starIcon + starIcon + starIcon;
-
-  try {
-    const list = testimonials.length > 0 ? testimonials.concat(testimonials) : [];
-    list.forEach((item) => {
-      const text = escapeHtml(item.text);
-      const author = escapeHtml(item.author || '');
-      const position = escapeHtml(item.position || 'Cliente Satisfecho');
-      const initial = author ? author.charAt(0).toUpperCase() : '?';
-
-      const card = document.createElement('div');
-      card.className =
-        'w-[400px] shrink-0 bg-slate-50 p-8 rounded-3xl border border-slate-100 flex flex-col gap-6';
-      card.innerHTML =
-        '<div class="flex gap-1">' + starsHtml + '</div>' +
-        '<p class="text-slate-700 italic">"' + text + '"</p>' +
-        '<div class="flex items-center gap-4 mt-auto">' +
-        '<div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center font-bold text-blue-600 text-sm">' + escapeHtml(initial) + '</div>' +
-        '<div><p class="font-bold text-sm text-slate-900">' + author + '</p>' +
-        '<p class="text-xs text-slate-500">' + position + '</p></div></div>';
-      container.appendChild(card);
-    });
-  } catch (e) {
-    if (typeof console !== 'undefined' && console.error) console.error('renderTestimonials:', e);
-  }
-}
-
 function initAnimations() {
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
   gsap.registerPlugin(ScrollTrigger);
 
-  const fadeUps = document.querySelectorAll('section > div');
+  // Solo animar secciones que no son el hero; si incluimos #inicio, el ScrollTrigger
+  // del contenedor aplica opacity 0 y hace que los botones desaparezcan al activarse.
+  const fadeUps = document.querySelectorAll('section:not(#inicio) > div');
   fadeUps.forEach((el) => {
     gsap.from(el, {
       scrollTrigger: {

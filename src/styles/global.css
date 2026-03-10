@@ -8,6 +8,13 @@
   --primary: #f8c16d;
   --primary-dark: #ee7601;
   --accent: #10b981;
+  /* H1 hero: naranja fuerte más oscuro que el fondo */
+  --hero-title: #b85a00;
+  /* Fuente del hero */
+  --font-hero: 'Plus Jakarta Sans', sans-serif;
+  /* Fondo footer: naranja suave (primary con 25% opacidad) */
+  --footer-bg: rgba(248, 193, 109, 0.28);
+  --footer-border: rgba(238, 118, 1, 0.25);
 }
 
 body {
@@ -75,6 +82,105 @@ img {
   animation-play-state: paused;
 }
 
+/* Hero: fondo en degradado naranja */
+.hero-gradient {
+  background: linear-gradient(
+    135deg,
+    rgba(248, 193, 109, 0.55) 0%,
+    rgba(248, 193, 109, 0.3) 35%,
+    rgba(248, 193, 109, 0.12) 65%,
+    rgba(255, 255, 255, 0.9) 100%
+  );
+}
+
+/* Hero: badge tipo botón flotante */
+.hero-badge-float {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.25rem 0.65rem 1.25rem;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(238, 118, 1, 0.35);
+  border-radius: 9999px;
+  color: var(--hero-title);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow:
+    0 4px 20px rgba(238, 118, 1, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.5) inset,
+    0 8px 32px rgba(0, 0, 0, 0.08);
+  animation: hero-float 4s ease-in-out infinite;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.hero-badge-float:hover {
+  animation-play-state: paused;
+  transform: translateY(-6px);
+  box-shadow:
+    0 12px 28px rgba(238, 118, 1, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.6) inset,
+    0 16px 48px rgba(0, 0, 0, 0.12);
+}
+.hero-badge-float-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--primary-dark);
+  box-shadow: 0 0 0 3px rgba(238, 118, 1, 0.25);
+  animation: hero-pulse-dot 2s ease-in-out infinite;
+}
+.hero-badge-float-text {
+  position: relative;
+}
+@keyframes hero-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+@keyframes hero-pulse-dot {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 0 3px rgba(238, 118, 1, 0.25);
+  }
+  50% {
+    opacity: 0.85;
+    box-shadow: 0 0 0 6px rgba(238, 118, 1, 0.15);
+  }
+}
+
+/* Hero: fuente distinta y H1 adaptable + naranja fuerte */
+.hero-section {
+  font-family: var(--font-hero);
+}
+.hero-title {
+  color: var(--hero-title);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  /* Escala fluida: ~2rem (320px) hasta ~4rem (1280px) */
+  font-size: clamp(1.875rem, 5vw + 1rem, 4rem);
+}
+@media (min-width: 640px) {
+  .hero-title {
+    font-size: clamp(2.25rem, 4vw + 1.5rem, 3.5rem);
+  }
+}
+@media (min-width: 1024px) {
+  .hero-title {
+    font-size: clamp(2.75rem, 3.5vw + 1.5rem, 4.25rem);
+  }
+}
+@media (min-width: 1280px) {
+  .hero-title {
+    font-size: clamp(3.25rem, 3vw + 2rem, 4.5rem);
+  }
+}
+
 /* Section transitions */
 section {
   position: relative;
@@ -95,6 +201,11 @@ section {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
+}
+
+/* Mensaje de éxito/error del formulario de contacto */
+#form-feedback {
+  transition: opacity 0.2s ease, background-color 0.2s ease;
 }
 
 /* Responsive adjustments */
@@ -143,5 +254,49 @@ section {
 .border-blue-100,
 .border-blue-500 {
   border-color: var(--primary) !important;
+}
+
+/* Footer: fondo naranja amigable con la marca */
+.footer-bg {
+  background-color: var(--footer-bg);
+}
+.footer-border-top {
+  border-top: 2px solid var(--footer-border);
+}
+.footer-divider {
+  border-color: var(--footer-border);
+}
+
+/* Etiquetas de sección: naranja oscuro para que resalten */
+.section-label {
+  color: var(--hero-title);
+}
+
+/* En fondos oscuros usar naranja más claro para buen contraste */
+.section-label-on-dark {
+  color: var(--primary);
+}
+
+/* Accesibilidad: foco visible para teclado (Tab) */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--primary-dark);
+  outline-offset: 2px;
+}
+.focus-visible-link:focus-visible {
+  outline: 2px solid var(--primary-dark);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.focus-visible-btn:focus-visible {
+  outline: 2px solid var(--primary-dark);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Contraste en fondos oscuros: panel de contacto */
+.contact-dark-panel-text {
+  color: #cbd5e1;
+  font-size: 0.875rem;
 }
 

@@ -1,0 +1,16 @@
+---
+import type { WhyUsItem as WhyUsItemType } from '../data/whyUs';
+interface Props {
+  item: WhyUsItemType;
+}
+const { item } = Astro.props;
+---
+<div class="flex items-start gap-4 sm:gap-6 group py-1 sm:py-2">
+  <div class="shrink-0 w-12 h-12 rounded-full border border-white/15 bg-white/5 flex items-center justify-center shadow-sm group-hover:bg-blue-600 group-hover:border-blue-600 transition-all duration-300">
+    <i data-lucide={item.icon} class="w-5 h-5 text-blue-400 group-hover:text-white transition-colors" aria-hidden="true"></i>
+  </div>
+  <div class="space-y-1 sm:space-y-1.5 max-w-xl">
+    <h4 class="text-lg sm:text-xl font-semibold text-white">{item.title}</h4>
+    <p class="text-sm sm:text-base text-slate-300 leading-relaxed">{item.description}</p>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+---
+import type { Testimonial } from '../data/testimonials';
+interface Props {
+  testimonial: Testimonial;
+}
+const { testimonial } = Astro.props;
+const initial = testimonial.author ? testimonial.author.charAt(0).toUpperCase() : '?';
+---
+<div class="w-[400px] shrink-0 bg-slate-50 p-8 rounded-3xl border border-slate-100 flex flex-col gap-6">
+  <div class="flex gap-1">
+    <i data-lucide="star" class="w-4 h-4 fill-orange-400 text-orange-400" aria-hidden="true"></i>
+    <i data-lucide="star" class="w-4 h-4 fill-orange-400 text-orange-400" aria-hidden="true"></i>
+    <i data-lucide="star" class="w-4 h-4 fill-orange-400 text-orange-400" aria-hidden="true"></i>
+    <i data-lucide="star" class="w-4 h-4 fill-orange-400 text-orange-400" aria-hidden="true"></i>
+    <i data-lucide="star" class="w-4 h-4 fill-orange-400 text-orange-400" aria-hidden="true"></i>
+  </div>
+  <p class="text-slate-700 italic">"{testimonial.text}"</p>
+  <div class="flex items-center gap-4 mt-auto">
+    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center font-bold text-blue-600 text-sm">
+      {initial}
+    </div>
+    <div>
+      <p class="font-bold text-sm text-slate-900">{testimonial.author}</p>
+      <p class="text-xs text-slate-500">{testimonial.position}</p>
+    </div>
+  </div>
+</div>

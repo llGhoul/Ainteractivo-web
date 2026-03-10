@@ -1,0 +1,17 @@
+---
+import type { Service } from '../data/services';
+interface Props {
+  service: Service;
+}
+const { service } = Astro.props;
+---
+<div class="service-card bg-white p-8 rounded-3xl border border-slate-100 flex flex-col items-start gap-4">
+  <div class={`w-14 h-14 ${service.color} rounded-2xl flex items-center justify-center mb-2`}>
+    <i data-lucide={service.icon} class="w-7 h-7" aria-hidden="true"></i>
+  </div>
+  <h4 class="text-xl font-bold text-slate-900">{service.title}</h4>
+  <p class="text-slate-500 leading-relaxed">{service.description}</p>
+  <a href="#contacto" class="text-sm font-semibold text-blue-600 mt-auto flex items-center gap-1 hover:gap-2 transition-all focus-visible-link">
+    Saber más <i data-lucide="chevron-right" class="w-4 h-4" aria-hidden="true"></i>
+  </a>
+</div>

@@ -6,9 +6,7 @@
 
 import favicon from '../assets/images/Favicon.webp';
 import logo from '../assets/images/LogoAI_Horizontal_Color.webp';
+import equipo from '../assets/images/Equipo.webp';
 
-export { favicon, logo };
+export { favicon, logo, equipo};
 
-/** Imagen de la sección Nosotros (equipo). Sustituir por import local cuando tengas el archivo en assets. */
-export const equipoUrl =
-  'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1200';

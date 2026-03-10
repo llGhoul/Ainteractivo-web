@@ -1,17 +1,25 @@
+---
+import ServiceCard from './ServiceCard.astro';
+import { services } from '../data/services';
+---
 <section id="servicios" class="py-24 bg-slate-50">
   <div class="max-w-7xl mx-auto px-6">
     <div class="text-center max-w-2xl mx-auto mb-16">
-      <h2 class="text-sm font-bold uppercase tracking-widest text-blue-600 mb-4">
+      <p class="section-label text-sm font-bold uppercase tracking-widest mb-4" aria-hidden="true">
         Servicios Especializados
-      </h2>
-      <h3 class="text-4xl font-bold text-slate-900 mb-4">
+      </p>
+      <h2 class="text-4xl font-bold text-slate-900 mb-4">
         Soluciones a la medida de tu organización
-      </h3>
+      </h2>
       <p class="text-slate-600">
-        Ofrecemos un ecosistema completo de herramientas digitales para potenciar el talento humano.
+        Software educativo, LMS, simuladores 3D, contenido SCORM y capacitación corporativa a la medida de tu organización.
       </p>
     </div>
-    <div id="services-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {services.map((service) => (
+        <ServiceCard service={service} />
+      ))}
+    </div>
   </div>
 </section>
 

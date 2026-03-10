@@ -4,7 +4,16 @@ import HeroSection from '../components/HeroSection.astro';
 import AboutSection from '../components/AboutSection.astro';
 import ServicesSection from '../components/ServicesSection.astro';
 import ContactSection from '../components/ContactSection.astro';
+import WhyUsItem from '../components/WhyUsItem.astro';
+import TestimonialCard from '../components/TestimonialCard.astro';
 import { favicon, logo } from '../data/images';
+import { contact, whyUs, testimonials } from '../data';
+
+const baseUrl = Astro.site ?? 'https://www.aprendizajeinteractivo.com';
+const canonicalUrl = `${baseUrl}/`;
+const ogImageUrl = new URL(logo.src, baseUrl).href;
+const ogTitle = 'Aprendizaje Interactivo SAS | Innovación en Tecnología Educativa';
+const ogDescription = 'Software educativo, LMS, simuladores y capacitación corporativa en Colombia. Plataformas educativas, contenido SCORM y soluciones tecnológicas para empresas e instituciones.';
 ---
 
 <!DOCTYPE html>
@@ -15,21 +24,39 @@ import { favicon, logo } from '../data/images';
     <title>Aprendizaje Interactivo SAS | Innovación en Tecnología Educativa</title>
     <meta
       name="description"
-      content="Desarrollamos plataformas educativas, simuladores y soluciones tecnológicas para empresas e instituciones en Colombia."
+      content={ogDescription}
     />
-    <link rel="icon" type="image/webp" href={favicon.src} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Favicon: múltiples formatos para compatibilidad -->
+    <link rel="icon" type="image/webp" href={favicon.src} sizes="32x32" />
+    <link rel="icon" type="image/webp" href={favicon.src} sizes="16x16" />
+    <link rel="apple-touch-icon" href={favicon.src} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:locale" content="es_CO" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalUrl} />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={ogDescription} />
+    <meta name="twitter:image" content={ogImageUrl} />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
 
-    <!-- Librerías externas -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+    <!-- Lucide: iconos (defer para no bloquear). GSAP/ScrollTrigger se cargan tras la primera interacción para aligerar la carga en móvil. -->
     <script src="https://unpkg.com/lucide@latest" defer></script>
 
     <!-- JS propio migrado -->
@@ -39,20 +66,20 @@ import { favicon, logo } from '../data/images';
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100" aria-label="Navegación principal">
       <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        <a href="#inicio" class="flex items-center shrink-0 min-w-0 max-w-[180px] sm:max-w-[220px] md:max-w-[260px]">
+        <a href="#inicio" class="flex items-center shrink-0 focus-visible-link">
           <img
             src={logo.src}
-            alt="Aprendizaje Interactivo"
-            class="h-8 w-auto max-h-10 sm:h-10 sm:max-h-12 md:h-12 md:max-h-14 object-contain object-left"
+            alt="Logo Aprendizaje Interactivo SAS - Ir al inicio"
+            class="w-36 h-auto sm:w-44 md:w-52 lg:w-60 max-h-14 object-contain object-left"
             decoding="async"
             fetchpriority="high"
           />
         </a>
         <div class="hidden md:flex items-center gap-8">
-          <a href="#inicio" class="text-sm font-medium hover:text-blue-600 transition-colors">Inicio</a>
-          <a href="#nosotros" class="text-sm font-medium hover:text-blue-600 transition-colors">Nosotros</a>
-          <a href="#servicios" class="text-sm font-medium hover:text-blue-600 transition-colors">Servicios</a>
-          <a href="#contacto" class="px-5 py-2 bg-blue-600 text-white rounded-full text-sm font-medium hover:bg-blue-700 transition-all shadow-sm">Contactar</a>
+          <a href="#inicio" class="text-sm font-medium hover:text-blue-600 transition-colors focus-visible-link">Inicio</a>
+          <a href="#nosotros" class="text-sm font-medium hover:text-blue-600 transition-colors focus-visible-link">Nosotros</a>
+          <a href="#servicios" class="text-sm font-medium hover:text-blue-600 transition-colors focus-visible-link">Servicios</a>
+          <a href="#contacto" class="px-5 py-2 bg-blue-600 text-white rounded-full text-sm font-medium hover:bg-blue-700 transition-all shadow-sm focus-visible-btn">Contactar</a>
         </div>
         <button
           type="button"
@@ -62,8 +89,8 @@ import { favicon, logo } from '../data/images';
           aria-label="Abrir menú"
           aria-controls="mobile-menu"
         >
-          <span id="icon-menu" class="block"><i data-lucide="menu" class="w-6 h-6"></i></span>
-          <span id="icon-close" class="hidden"><i data-lucide="x" class="w-6 h-6"></i></span>
+          <span id="icon-menu" class="block"><i data-lucide="menu" class="w-6 h-6" aria-hidden="true"></i></span>
+          <span id="icon-close" class="hidden"><i data-lucide="x" class="w-6 h-6" aria-hidden="true"></i></span>
         </button>
       </div>
       <!-- Menú móvil -->
@@ -75,10 +102,10 @@ import { favicon, logo } from '../data/images';
         aria-label="Menú de navegación"
       >
         <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-1">
-          <a href="#inicio" class="nav-link-mobile py-3 px-4 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">Inicio</a>
-          <a href="#nosotros" class="nav-link-mobile py-3 px-4 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">Nosotros</a>
-          <a href="#servicios" class="nav-link-mobile py-3 px-4 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">Servicios</a>
-          <a href="#contacto" class="nav-link-mobile py-3 px-4 rounded-xl text-base font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors text-center mt-2">Contactar</a>
+          <a href="#inicio" class="nav-link-mobile py-3 px-4 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors focus-visible-link">Inicio</a>
+          <a href="#nosotros" class="nav-link-mobile py-3 px-4 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors focus-visible-link">Nosotros</a>
+          <a href="#servicios" class="nav-link-mobile py-3 px-4 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors focus-visible-link">Servicios</a>
+          <a href="#contacto" class="nav-link-mobile py-3 px-4 rounded-xl text-base font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors text-center mt-2 focus-visible-btn">Contactar</a>
         </div>
       </div>
     </nav>
@@ -89,10 +116,10 @@ import { favicon, logo } from '../data/images';
     <section class="border-y border-slate-100 bg-white py-12">
       <div class="max-w-7xl mx-auto px-6">
         <div class="flex flex-wrap justify-between items-center gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-          <div class="flex items-center gap-2 font-bold text-lg"><i data-lucide="shield-check" class="text-blue-600"></i> Calidad Certificada</div>
-          <div class="flex items-center gap-2 font-bold text-lg"><i data-lucide="zap" class="text-orange-500"></i> Agilidad Digital</div>
-          <div class="flex items-center gap-2 font-bold text-lg"><i data-lucide="globe" class="text-blue-400"></i> Alcance Regional</div>
-          <div class="flex items-center gap-2 font-bold text-lg"><i data-lucide="users" class="text-emerald-500"></i> +100 Clientes</div>
+          <div class="flex items-center gap-2 font-bold text-lg"><i data-lucide="shield-check" class="text-blue-600" aria-hidden="true"></i> Calidad Certificada</div>
+          <div class="flex items-center gap-2 font-bold text-lg"><i data-lucide="zap" class="text-orange-500" aria-hidden="true"></i> Agilidad Digital</div>
+          <div class="flex items-center gap-2 font-bold text-lg"><i data-lucide="globe" class="text-blue-400" aria-hidden="true"></i> Alcance Regional</div>
+          <div class="flex items-center gap-2 font-bold text-lg"><i data-lucide="users" class="text-emerald-500" aria-hidden="true"></i> +100 Clientes</div>
         </div>
       </div>
     </section>
@@ -107,32 +134,36 @@ import { favicon, logo } from '../data/images';
       <div class="max-w-7xl mx-auto px-6 relative z-10">
         <div class="grid lg:grid-cols-2 gap-16 items-center">
           <div>
-            <h2 class="text-blue-400 font-bold uppercase tracking-widest text-sm mb-4">¿Por qué elegirnos?</h2>
-            <h3 class="text-4xl lg:text-5xl font-bold mb-8 leading-tight">Lideramos el cambio hacia el futuro educativo</h3>
-            <div class="space-y-8" id="features-list"></div>
+            <h2 class="section-label-on-dark font-bold uppercase tracking-widest text-sm mb-4">¿Por qué elegirnos?</h2>
+            <h3 class="text-4xl lg:text-5xl font-bold mb-8 leading-tight text-white">Lideramos el cambio hacia el futuro educativo</h3>
+            <div class="space-y-8">
+              {whyUs.map((item) => (
+                <WhyUsItem item={item} />
+              ))}
+            </div>
           </div>
           <div class="grid grid-cols-2 gap-4">
             <div class="space-y-4 pt-12">
-              <div class="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-3xl">
-                <i data-lucide="cpu" class="w-10 h-10 text-blue-400 mb-4"></i>
-                <h4 class="font-bold text-xl mb-2">Simuladores</h4>
-                <p class="text-slate-400 text-sm">Entornos seguros de práctica profesional.</p>
+              <div class="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-3xl dark-section-card">
+                <i data-lucide="cpu" class="w-10 h-10 text-blue-400 mb-4" aria-hidden="true"></i>
+                <h4 class="font-bold text-xl mb-2 text-white">Simuladores</h4>
+                <p class="text-slate-300 text-sm">Entornos seguros de práctica profesional.</p>
               </div>
-              <div class="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-3xl">
-                <i data-lucide="layers" class="w-10 h-10 text-emerald-400 mb-4"></i>
-                <h4 class="font-bold text-xl mb-2">LMS Pro</h4>
-                <p class="text-slate-400 text-sm">Gestión total del aprendizaje.</p>
+              <div class="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-3xl dark-section-card">
+                <i data-lucide="layers" class="w-10 h-10 text-emerald-400 mb-4" aria-hidden="true"></i>
+                <h4 class="font-bold text-xl mb-2 text-white">LMS Pro</h4>
+                <p class="text-slate-300 text-sm">Gestión total del aprendizaje.</p>
               </div>
             </div>
             <div class="space-y-4">
-              <div class="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-3xl">
-                <i data-lucide="code-2" class="w-10 h-10 text-orange-400 mb-4"></i>
-                <h4 class="font-bold text-xl mb-2">Software</h4>
-                <p class="text-slate-400 text-sm">Código escalable y de alta calidad.</p>
+              <div class="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-3xl dark-section-card">
+                <i data-lucide="code-2" class="w-10 h-10 text-orange-400 mb-4" aria-hidden="true"></i>
+                <h4 class="font-bold text-xl mb-2 text-white">Software</h4>
+                <p class="text-slate-300 text-sm">Código escalable y de alta calidad.</p>
               </div>
-              <div class="bg-white/10 backdrop-blur-sm border border-blue-500/30 p-8 rounded-3xl bg-blue-500/5">
-                <i data-lucide="sparkles" class="w-10 h-10 text-white mb-4"></i>
-                <h4 class="font-bold text-xl mb-2">Innovación</h4>
+              <div class="bg-white/10 backdrop-blur-sm border border-blue-500/30 p-8 rounded-3xl bg-blue-500/5 dark-section-card">
+                <i data-lucide="sparkles" class="w-10 h-10 text-white mb-4" aria-hidden="true"></i>
+                <h4 class="font-bold text-xl mb-2 text-white">Innovación</h4>
                 <p class="text-slate-200 text-sm">A la vanguardia de tendencias.</p>
               </div>
             </div>
@@ -145,67 +176,76 @@ import { favicon, logo } from '../data/images';
     <section class="py-24 bg-white overflow-hidden">
       <div class="max-w-7xl mx-auto px-6">
         <div class="text-center mb-16">
-          <h3 class="text-3xl font-bold text-slate-900">Lo que dicen nuestros clientes</h3>
+          <h2 class="text-3xl font-bold text-slate-900">Lo que dicen nuestros clientes</h2>
         </div>
-        <div id="testimonials-container" class="flex gap-8 animate-scroll"></div>
+        <div class="flex gap-8 animate-scroll w-max">
+          {[...testimonials, ...testimonials].map((testimonial) => (
+            <TestimonialCard testimonial={testimonial} />
+          ))}
+        </div>
       </div>
     </section>
 
     <ContactSection />
 
     <!-- Footer -->
-    <footer class="bg-white pt-20 pb-10 border-t border-slate-100">
+    <footer class="footer-bg footer-border-top pt-20 pb-10">
       <div class="max-w-7xl mx-auto px-6">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-12 mb-16">
           <div class="col-span-2 md:col-span-1">
-            <div class="flex items-center gap-2 mb-6">
-              <div class="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
-                <i data-lucide="book-open" class="text-white w-5 h-5"></i>
-              </div>
-              <span class="text-lg font-bold tracking-tight">Aprendizaje<span class="text-blue-600">Interactivo</span></span>
-            </div>
-            <p class="text-slate-500 text-sm leading-relaxed mb-6">
-              Transformando la capacitación corporativa y académica a través de tecnología interactiva y software de alto impacto.
+            <a href="#inicio" class="inline-block mb-6 focus-visible-link">
+              <img
+                src={logo.src}
+                alt="Logo Aprendizaje Interactivo SAS - Volver al inicio"
+                class="w-44 sm:w-56 md:w-64 lg:w-72 h-auto object-contain object-left"
+              />
+            </a>
+            <p class="text-slate-800 text-sm leading-relaxed mb-6">
+              Software educativo, LMS, simuladores y capacitación corporativa en Colombia. Tecnología interactiva y soluciones de alto impacto para empresas e instituciones.
             </p>
             <div class="flex gap-4">
-              <a href="#" class="w-8 h-8 bg-slate-50 rounded-full flex items-center justify-center hover:bg-blue-50 hover:text-blue-600 transition-all"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
-              <a href="#" class="w-8 h-8 bg-slate-50 rounded-full flex items-center justify-center hover:bg-blue-50 hover:text-blue-600 transition-all"><i data-lucide="facebook" class="w-4 h-4"></i></a>
-              <a href="#" class="w-8 h-8 bg-slate-50 rounded-full flex items-center justify-center hover:bg-blue-50 hover:text-blue-600 transition-all"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+              <a href="https://www.linkedin.com/company/aprendizaje-interactivo-sas/posts/?feedView=all" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn de Aprendizaje Interactivo" class="w-8 h-8 bg-white/80 rounded-full flex items-center justify-center hover:bg-[var(--primary)] hover:text-white transition-all shadow-sm focus-visible-btn"><i data-lucide="linkedin" class="w-4 h-4" aria-hidden="true"></i></a>
+              <a href="https://www.tiktok.com/@ainteractivo_" target="_blank" rel="noopener noreferrer" aria-label="TikTok de Aprendizaje Interactivo" class="w-8 h-8 bg-white/80 rounded-full flex items-center justify-center hover:bg-[var(--primary)] hover:text-white transition-all shadow-sm text-current focus-visible-btn">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                </svg>
+              </a>
+              <a href="https://www.instagram.com/ainteractivo_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram de Aprendizaje Interactivo" class="w-8 h-8 bg-white/80 rounded-full flex items-center justify-center hover:bg-[var(--primary)] hover:text-white transition-all shadow-sm focus-visible-btn"><i data-lucide="instagram" class="w-4 h-4" aria-hidden="true"></i></a>
             </div>
           </div>
           <div>
-            <h4 class="font-bold mb-6">Empresa</h4>
-            <ul class="space-y-4 text-sm text-slate-500">
-              <li><a href="#nosotros" class="hover:text-blue-600">Sobre Nosotros</a></li>
-              <li><a href="#servicios" class="hover:text-blue-600">Servicios</a></li>
-              <li><a href="#" class="hover:text-blue-600">Proyectos</a></li>
-              <li><a href="#" class="hover:text-blue-600">Blog</a></li>
+            <h4 class="font-bold mb-6 text-slate-800">Empresa</h4>
+            <ul class="space-y-4 text-sm text-slate-600">
+              <li><a href="#nosotros" class="hover:text-[var(--primary-dark)] transition-colors focus-visible-link">Sobre Nosotros</a></li>
+              <li><a href="#servicios" class="hover:text-[var(--primary-dark)] transition-colors focus-visible-link">Servicios</a></li>
+              <li><a href="#" class="hover:text-[var(--primary-dark)] transition-colors focus-visible-link">Proyectos</a></li>
+              <li><a href="#" class="hover:text-[var(--primary-dark)] transition-colors focus-visible-link">Blog</a></li>
             </ul>
           </div>
           <div>
-            <h4 class="font-bold mb-6">Servicios</h4>
-            <ul class="space-y-4 text-sm text-slate-500">
-              <li><a href="#" class="hover:text-blue-600">Desarrollo LMS</a></li>
-              <li><a href="#" class="hover:text-blue-600">Simuladores 3D</a></li>
-              <li><a href="#" class="hover:text-blue-600">Contenido SCORM</a></li>
-              <li><a href="#" class="hover:text-blue-600">Software a Medida</a></li>
+            <h4 class="font-bold mb-6 text-slate-800">Servicios</h4>
+            <ul class="space-y-4 text-sm text-slate-600">
+              <li><a href="#" class="hover:text-[var(--primary-dark)] transition-colors focus-visible-link">Desarrollo LMS</a></li>
+              <li><a href="#" class="hover:text-[var(--primary-dark)] transition-colors focus-visible-link">Simuladores 3D</a></li>
+              <li><a href="#" class="hover:text-[var(--primary-dark)] transition-colors focus-visible-link">Contenido SCORM</a></li>
+              <li><a href="#" class="hover:text-[var(--primary-dark)] transition-colors focus-visible-link">Software a Medida</a></li>
             </ul>
           </div>
           <div>
-            <h4 class="font-bold mb-6">Contacto</h4>
-            <ul class="space-y-4 text-sm text-slate-500">
-              <li class="flex items-start gap-2"><i data-lucide="mail" class="w-4 h-4 text-blue-600"></i> contacto@aprendizajeinteractivo.com</li>
-              <li class="flex items-start gap-2"><i data-lucide="phone" class="w-4 h-4 text-blue-600"></i> +57 310 2566170</li>
-              <li class="flex items-start gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-blue-600"></i> Bogotá, Colombia</li>
+            <h4 class="font-bold mb-6 text-slate-800">Contacto</h4>
+            <ul class="space-y-4 text-sm text-slate-600">
+              <li class="flex items-start gap-2"><i data-lucide="mail" class="w-4 h-4 text-[var(--primary-dark)] shrink-0 mt-0.5" aria-hidden="true"></i> {contact.email}</li>
+              <li class="flex items-start gap-2"><i data-lucide="phone" class="w-4 h-4 text-[var(--primary-dark)] shrink-0 mt-0.5" aria-hidden="true"></i> {contact.phone}</li>
+              <li class="flex items-start gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-[var(--primary-dark)] shrink-0 mt-0.5" aria-hidden="true"></i> {contact.city}</li>
             </ul>
           </div>
         </div>
-        <div class="pt-8 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-400">
+        <div class="pt-8 border-t footer-divider flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-600">
           <p>© 2026 Aprendizaje Interactivo SAS. Todos los derechos reservados.</p>
           <div class="flex gap-6">
-            <a href="#" class="hover:text-slate-600">Privacidad</a>
-            <a href="#" class="hover:text-slate-600">Términos</a>
-            <a href="#" class="hover:text-slate-600">Cookies</a>
+            <a href="#" class="hover:text-[var(--primary-dark)] transition-colors focus-visible-link">Privacidad</a>
+            <a href="#" class="hover:text-[var(--primary-dark)] transition-colors focus-visible-link">Términos</a>
+            <a href="#" class="hover:text-[var(--primary-dark)] transition-colors focus-visible-link">Cookies</a>
           </div>
         </div>
       </div>
