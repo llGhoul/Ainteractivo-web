@@ -1,0 +1,215 @@
+---
+import '../styles/global.css';
+import HeroSection from '../components/HeroSection.astro';
+import AboutSection from '../components/AboutSection.astro';
+import ServicesSection from '../components/ServicesSection.astro';
+import ContactSection from '../components/ContactSection.astro';
+import { favicon, logo } from '../data/images';
+---
+
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aprendizaje Interactivo SAS | Innovación en Tecnología Educativa</title>
+    <meta
+      name="description"
+      content="Desarrollamos plataformas educativas, simuladores y soluciones tecnológicas para empresas e instituciones en Colombia."
+    />
+    <link rel="icon" type="image/webp" href={favicon.src} />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Librerías externas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+
+    <!-- JS propio migrado -->
+    <script type="module" src="/main.js" defer></script>
+  </head>
+  <body class="bg-[#fafafa] text-slate-900 font-inter antialiased overflow-x-hidden">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100" aria-label="Navegación principal">
+      <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <a href="#inicio" class="flex items-center shrink-0 min-w-0 max-w-[180px] sm:max-w-[220px] md:max-w-[260px]">
+          <img
+            src={logo.src}
+            alt="Aprendizaje Interactivo"
+            class="h-8 w-auto max-h-10 sm:h-10 sm:max-h-12 md:h-12 md:max-h-14 object-contain object-left"
+            decoding="async"
+            fetchpriority="high"
+          />
+        </a>
+        <div class="hidden md:flex items-center gap-8">
+          <a href="#inicio" class="text-sm font-medium hover:text-blue-600 transition-colors">Inicio</a>
+          <a href="#nosotros" class="text-sm font-medium hover:text-blue-600 transition-colors">Nosotros</a>
+          <a href="#servicios" class="text-sm font-medium hover:text-blue-600 transition-colors">Servicios</a>
+          <a href="#contacto" class="px-5 py-2 bg-blue-600 text-white rounded-full text-sm font-medium hover:bg-blue-700 transition-all shadow-sm">Contactar</a>
+        </div>
+        <button
+          type="button"
+          id="menu-toggle"
+          class="md:hidden p-2 rounded-lg hover:bg-slate-100 transition-colors"
+          aria-expanded="false"
+          aria-label="Abrir menú"
+          aria-controls="mobile-menu"
+        >
+          <span id="icon-menu" class="block"><i data-lucide="menu" class="w-6 h-6"></i></span>
+          <span id="icon-close" class="hidden"><i data-lucide="x" class="w-6 h-6"></i></span>
+        </button>
+      </div>
+      <!-- Menú móvil -->
+      <div
+        id="mobile-menu"
+        class="mobile-menu md:hidden absolute top-full left-0 right-0 bg-white border-b border-slate-100 shadow-lg overflow-hidden"
+        aria-hidden="true"
+        role="dialog"
+        aria-label="Menú de navegación"
+      >
+        <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-1">
+          <a href="#inicio" class="nav-link-mobile py-3 px-4 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">Inicio</a>
+          <a href="#nosotros" class="nav-link-mobile py-3 px-4 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">Nosotros</a>
+          <a href="#servicios" class="nav-link-mobile py-3 px-4 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">Servicios</a>
+          <a href="#contacto" class="nav-link-mobile py-3 px-4 rounded-xl text-base font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors text-center mt-2">Contactar</a>
+        </div>
+      </div>
+    </nav>
+
+    <HeroSection />
+
+    <!-- Stats -->
+    <section class="border-y border-slate-100 bg-white py-12">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="flex flex-wrap justify-between items-center gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+          <div class="flex items-center gap-2 font-bold text-lg"><i data-lucide="shield-check" class="text-blue-600"></i> Calidad Certificada</div>
+          <div class="flex items-center gap-2 font-bold text-lg"><i data-lucide="zap" class="text-orange-500"></i> Agilidad Digital</div>
+          <div class="flex items-center gap-2 font-bold text-lg"><i data-lucide="globe" class="text-blue-400"></i> Alcance Regional</div>
+          <div class="flex items-center gap-2 font-bold text-lg"><i data-lucide="users" class="text-emerald-500"></i> +100 Clientes</div>
+        </div>
+      </div>
+    </section>
+
+    <AboutSection />
+
+    <ServicesSection />
+
+    <!-- Why Choose Us -->
+    <section class="py-24 bg-slate-900 text-white overflow-hidden relative">
+      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_rgba(37,99,235,0.15)_0%,_transparent_70%)]"></div>
+      <div class="max-w-7xl mx-auto px-6 relative z-10">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+          <div>
+            <h2 class="text-blue-400 font-bold uppercase tracking-widest text-sm mb-4">¿Por qué elegirnos?</h2>
+            <h3 class="text-4xl lg:text-5xl font-bold mb-8 leading-tight">Lideramos el cambio hacia el futuro educativo</h3>
+            <div class="space-y-8" id="features-list"></div>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="space-y-4 pt-12">
+              <div class="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-3xl">
+                <i data-lucide="cpu" class="w-10 h-10 text-blue-400 mb-4"></i>
+                <h4 class="font-bold text-xl mb-2">Simuladores</h4>
+                <p class="text-slate-400 text-sm">Entornos seguros de práctica profesional.</p>
+              </div>
+              <div class="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-3xl">
+                <i data-lucide="layers" class="w-10 h-10 text-emerald-400 mb-4"></i>
+                <h4 class="font-bold text-xl mb-2">LMS Pro</h4>
+                <p class="text-slate-400 text-sm">Gestión total del aprendizaje.</p>
+              </div>
+            </div>
+            <div class="space-y-4">
+              <div class="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-3xl">
+                <i data-lucide="code-2" class="w-10 h-10 text-orange-400 mb-4"></i>
+                <h4 class="font-bold text-xl mb-2">Software</h4>
+                <p class="text-slate-400 text-sm">Código escalable y de alta calidad.</p>
+              </div>
+              <div class="bg-white/10 backdrop-blur-sm border border-blue-500/30 p-8 rounded-3xl bg-blue-500/5">
+                <i data-lucide="sparkles" class="w-10 h-10 text-white mb-4"></i>
+                <h4 class="font-bold text-xl mb-2">Innovación</h4>
+                <p class="text-slate-200 text-sm">A la vanguardia de tendencias.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-24 bg-white overflow-hidden">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+          <h3 class="text-3xl font-bold text-slate-900">Lo que dicen nuestros clientes</h3>
+        </div>
+        <div id="testimonials-container" class="flex gap-8 animate-scroll"></div>
+      </div>
+    </section>
+
+    <ContactSection />
+
+    <!-- Footer -->
+    <footer class="bg-white pt-20 pb-10 border-t border-slate-100">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-12 mb-16">
+          <div class="col-span-2 md:col-span-1">
+            <div class="flex items-center gap-2 mb-6">
+              <div class="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
+                <i data-lucide="book-open" class="text-white w-5 h-5"></i>
+              </div>
+              <span class="text-lg font-bold tracking-tight">Aprendizaje<span class="text-blue-600">Interactivo</span></span>
+            </div>
+            <p class="text-slate-500 text-sm leading-relaxed mb-6">
+              Transformando la capacitación corporativa y académica a través de tecnología interactiva y software de alto impacto.
+            </p>
+            <div class="flex gap-4">
+              <a href="#" class="w-8 h-8 bg-slate-50 rounded-full flex items-center justify-center hover:bg-blue-50 hover:text-blue-600 transition-all"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
+              <a href="#" class="w-8 h-8 bg-slate-50 rounded-full flex items-center justify-center hover:bg-blue-50 hover:text-blue-600 transition-all"><i data-lucide="facebook" class="w-4 h-4"></i></a>
+              <a href="#" class="w-8 h-8 bg-slate-50 rounded-full flex items-center justify-center hover:bg-blue-50 hover:text-blue-600 transition-all"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+            </div>
+          </div>
+          <div>
+            <h4 class="font-bold mb-6">Empresa</h4>
+            <ul class="space-y-4 text-sm text-slate-500">
+              <li><a href="#nosotros" class="hover:text-blue-600">Sobre Nosotros</a></li>
+              <li><a href="#servicios" class="hover:text-blue-600">Servicios</a></li>
+              <li><a href="#" class="hover:text-blue-600">Proyectos</a></li>
+              <li><a href="#" class="hover:text-blue-600">Blog</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-bold mb-6">Servicios</h4>
+            <ul class="space-y-4 text-sm text-slate-500">
+              <li><a href="#" class="hover:text-blue-600">Desarrollo LMS</a></li>
+              <li><a href="#" class="hover:text-blue-600">Simuladores 3D</a></li>
+              <li><a href="#" class="hover:text-blue-600">Contenido SCORM</a></li>
+              <li><a href="#" class="hover:text-blue-600">Software a Medida</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-bold mb-6">Contacto</h4>
+            <ul class="space-y-4 text-sm text-slate-500">
+              <li class="flex items-start gap-2"><i data-lucide="mail" class="w-4 h-4 text-blue-600"></i> contacto@aprendizajeinteractivo.com</li>
+              <li class="flex items-start gap-2"><i data-lucide="phone" class="w-4 h-4 text-blue-600"></i> +57 310 2566170</li>
+              <li class="flex items-start gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-blue-600"></i> Bogotá, Colombia</li>
+            </ul>
+          </div>
+        </div>
+        <div class="pt-8 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-400">
+          <p>© 2026 Aprendizaje Interactivo SAS. Todos los derechos reservados.</p>
+          <div class="flex gap-6">
+            <a href="#" class="hover:text-slate-600">Privacidad</a>
+            <a href="#" class="hover:text-slate-600">Términos</a>
+            <a href="#" class="hover:text-slate-600">Cookies</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
+
