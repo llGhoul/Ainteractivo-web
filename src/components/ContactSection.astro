@@ -1,5 +1,8 @@
 ---
 import { contact } from '../data/contact';
+
+const formspreeId = import.meta.env.PUBLIC_FORMSPREE_FORM_ID ?? 'mkoqjqno';
+const formAction = `https://formspree.io/f/${formspreeId}`;
 ---
 <section id="contacto" class="py-12 sm:py-16 lg:py-24 bg-slate-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6">
@@ -10,7 +13,7 @@ import { contact } from '../data/contact';
           <h2 class="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-slate-900">Hablemos de tu próximo proyecto</h2>
           <form
             id="contact-form"
-            action="https://formspree.io/f/mkoqjqno"
+            action={formAction}
             method="POST"
             class="space-y-5 sm:space-y-6"
           >

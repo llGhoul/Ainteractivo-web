@@ -58,9 +58,6 @@ const ogDescription = 'Software educativo, LMS, simuladores y capacitación corp
 
     <!-- Lucide: iconos (defer para no bloquear). GSAP/ScrollTrigger se cargan tras la primera interacción para aligerar la carga en móvil. -->
     <script src="https://unpkg.com/lucide@latest" defer></script>
-
-    <!-- JS propio migrado -->
-    <script type="module" src="/main.js" defer></script>
   </head>
   <body class="bg-[#fafafa] text-slate-900 font-inter antialiased overflow-x-hidden">
     <!-- Navigation -->
@@ -250,6 +247,9 @@ const ogDescription = 'Software educativo, LMS, simuladores y capacitación corp
         </div>
       </div>
     </footer>
+    <script>
+      import '../scripts/main.js';
+    </script>
   </body>
 </html>
 

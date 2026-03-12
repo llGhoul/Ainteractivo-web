@@ -1,0 +1,31 @@
+---
+export const prerender = false;
+---
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Área privada | Aprendizaje Interactivo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body style="font-family: Inter, sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #f8fafc; margin: 0; padding: 2rem;">
+    <main style="text-align: center; max-width: 480px;">
+      <h1 style="font-size: 1.75rem; margin: 0 0 0.5rem 0; color: #0f172a;">Área privada</h1>
+      <p style="color: #64748b; margin: 0 0 1.5rem 0;">Has iniciado sesión correctamente. Este contenido solo es visible para usuarios autorizados.</p>
+      <form method="post" action="/api/auth/logout" style="display: inline;">
+        <button
+          type="submit"
+          style="padding: 0.5rem 1rem; background: transparent; color: #64748b; border: 1px solid #e2e8f0; border-radius: 0.5rem; font-weight: 500; cursor: pointer; font-size: 0.875rem;"
+        >
+          Cerrar sesión
+        </button>
+      </form>
+      <p style="margin: 1.5rem 0 0 0; font-size: 0.875rem;">
+        <a href="/" style="color: #ee7601;">← Volver al inicio</a>
+      </p>
+    </main>
+  </body>
+</html>

@@ -66,8 +66,6 @@ function loadGsapThenRunAnimations() {
   document.head.appendChild(script1);
 }
 
-const FORMSPREE_URL = 'https://formspree.io/f/mkoqjqno';
-
 /** Validación mínima: requeridos y formato email */
 function validateContactForm(form) {
   const name = (form.querySelector('[name="name"]') || {}).value;
@@ -154,7 +152,8 @@ function initContactForm() {
     setSubmitLoading(true);
     try {
       const formData = new FormData(form);
-      const res = await fetch(FORMSPREE_URL, {
+      const actionUrl = form.getAttribute('action') || form.action;
+      const res = await fetch(actionUrl, {
         method: 'POST',
         body: formData,
         headers: { Accept: 'application/json' }
@@ -226,13 +225,11 @@ function initMobileMenu() {
     link.addEventListener('click', () => closeMenu());
   });
 
-  // Cerrar al hacer clic fuera del menú
   document.addEventListener('click', (e) => {
     if (!menu.classList.contains('is-open')) return;
     if (!menu.contains(e.target) && !toggle.contains(e.target)) closeMenu();
   });
 
-  // Cerrar con Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && menu.classList.contains('is-open')) closeMenu();
   });
@@ -242,8 +239,6 @@ function initAnimations() {
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
   gsap.registerPlugin(ScrollTrigger);
 
-  // No animar el hero (#inicio): al aplicar gsap.from con opacity 0 a sus elementos,
-  // al hacer scroll los botones pueden quedar invisibles. El hero ya se ve bien al cargar.
   const fadeUps = document.querySelectorAll('section:not(#inicio) > div');
   fadeUps.forEach((el) => {
     gsap.from(el, {
@@ -258,9 +253,4 @@ function initAnimations() {
       ease: 'power2.out'
     });
   });
-
-  // No animar el contenido del hero cuando GSAP se carga tras el primer scroll:
-  // gsap.from(heroTargets, { opacity: 0 }) puede dejar h1/p/botones en opacity 0
-  // al ejecutarse después de que el usuario ya haya scrolleado.
 }
-
