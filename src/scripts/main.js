@@ -11,12 +11,18 @@ function safeCreateIcons() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function initAfterDom() {
   safeCreateIcons();
-  initMobileMenu();
-  initAnimationsWhenReady();
-  initContactForm();
-});
+  if (typeof initMobileMenu === 'function') initMobileMenu();
+  if (typeof initAnimationsWhenReady === 'function') initAnimationsWhenReady();
+  if (typeof initContactForm === 'function') initContactForm();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAfterDom);
+} else {
+  initAfterDom();
+}
 
 /**
  * Carga GSAP y ScrollTrigger solo tras la primera interacción del usuario (scroll, toque, clic, tecla)
@@ -174,7 +180,7 @@ function initContactForm() {
           data.error || '<strong>No se pudo enviar.</strong> Vuelve a intentarlo más tarde.'
         );
       }
-    } catch (err) {
+    } catch {
       showFormFeedback(
         form,
         'error',
