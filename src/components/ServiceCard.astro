@@ -5,13 +5,25 @@ interface Props {
 }
 const { service } = Astro.props;
 ---
-<div class="service-card bg-white p-8 rounded-3xl border border-slate-100 flex flex-col items-start gap-4">
-  <div class={`w-14 h-14 ${service.color} rounded-2xl flex items-center justify-center mb-2`}>
-    <i data-lucide={service.icon} class="w-7 h-7" aria-hidden="true"></i>
+<div class="service-card group relative bg-white p-8 rounded-3xl border border-slate-100 flex flex-col items-start gap-4 overflow-hidden cursor-pointer">
+
+  <!-- Radial glow naranja desde abajo al hover -->
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(238,118,1,0.1)_0%,transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-350 rounded-3xl pointer-events-none"></div>
+
+  <!-- Wrapper del ícono con animación spring -->
+  <div class={`service-icon-box relative z-10 w-14 h-14 ${service.color} rounded-2xl flex items-center justify-center mb-2 transition-all duration-[350ms] [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-110 group-hover:-rotate-[8deg] group-hover:shadow-[0_0_18px_rgba(238,118,1,0.3)]`}>
+    <i data-lucide={service.icon} class="w-7 h-7 relative z-10" aria-hidden="true"></i>
   </div>
-  <h4 class="text-xl font-bold text-slate-900">{service.title}</h4>
-  <p class="text-slate-500 leading-relaxed">{service.description}</p>
-  <a href="#contacto" class="text-sm font-semibold text-blue-600 mt-auto flex items-center gap-1 hover:gap-2 transition-all focus-visible-link">
-    Saber más <i data-lucide="chevron-right" class="w-4 h-4" aria-hidden="true"></i>
+
+  <h4 class="relative z-10 text-xl font-bold text-slate-900 group-hover:text-[#b85a00] transition-colors duration-300">{service.title}</h4>
+
+  <p class="relative z-10 text-slate-500 leading-relaxed group-hover:text-slate-600 transition-colors duration-300">{service.description}</p>
+
+  <a
+    href="/#contacto"
+    class="relative z-10 text-sm font-semibold text-[var(--primary-dark)] mt-auto flex items-center gap-1 hover:gap-2 transition-all focus-visible-link group-hover:text-[#b85a00]"
+  >
+    Saber más
+    <i data-lucide="chevron-right" class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true"></i>
   </a>
 </div>

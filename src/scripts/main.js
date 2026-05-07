@@ -16,6 +16,7 @@ function initAfterDom() {
   if (typeof initMobileMenu === 'function') initMobileMenu();
   if (typeof initAnimationsWhenReady === 'function') initAnimationsWhenReady();
   if (typeof initContactForm === 'function') initContactForm();
+  if (typeof initHashNavigation === 'function') initHashNavigation();
 }
 
 if (document.readyState === 'loading') {
@@ -190,6 +191,31 @@ function initContactForm() {
       setSubmitLoading(false);
     }
   });
+}
+
+/**
+ * Asegura navegación consistente a anclas (ej. /#contacto) entre páginas,
+ * compensando el header fijo.
+ */
+function initHashNavigation() {
+  const hash = (window.location.hash || '').replace('#', '').trim();
+  if (!hash) return;
+
+  const target = document.getElementById(hash);
+  if (!target) return;
+
+  const scrollToHashTarget = () => {
+    const headerOffset = 96;
+    const top = target.getBoundingClientRect().top + window.scrollY - headerOffset;
+    window.scrollTo({ top: Math.max(top, 0), behavior: 'smooth' });
+  };
+
+  // Ejecuta al hidratar y luego una segunda vez al cargar todo para evitar
+  // que cambios de layout (fuentes/medios) dejen el scroll en una posición incorrecta.
+  window.requestAnimationFrame(() => {
+    window.setTimeout(scrollToHashTarget, 0);
+  });
+  window.addEventListener('load', () => window.setTimeout(scrollToHashTarget, 0), { once: true });
 }
 
 function initMobileMenu() {

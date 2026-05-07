@@ -1,0 +1,182 @@
+---
+import '../styles/global.css';
+import { favicon, logo } from '../data/images';
+import { contact } from '../data';
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+  activeNav?: 'inicio' | 'nosotros' | 'servicios';
+  contentClass?: string;
+}
+
+const {
+  title,
+  description,
+  canonicalPath = '/',
+  activeNav = 'inicio',
+  contentClass = 'pt-24'
+} = Astro.props;
+
+const baseUrl = Astro.site ?? 'https://www.aprendizajeinteractivo.com';
+const canonicalUrl = `${baseUrl}${canonicalPath}`;
+const ogImageUrl = new URL(logo.src, baseUrl).href;
+---
+
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <link rel="icon" type="image/webp" href={favicon.src} sizes="32x32" />
+    <link rel="icon" type="image/webp" href={favicon.src} sizes="16x16" />
+    <link rel="apple-touch-icon" href={favicon.src} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:locale" content="es_CO" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalUrl} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js" defer></script>
+  </head>
+  <body class="bg-[#fafafa] text-slate-900 font-inter antialiased overflow-x-hidden">
+    <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100" aria-label="Navegación principal">
+      <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <a href="/" class="flex items-center shrink-0 focus-visible-link">
+          <img
+            src={logo.src}
+            alt="Logo Aprendizaje Interactivo SAS - Ir al inicio"
+            class="w-36 h-auto sm:w-44 md:w-52 lg:w-60 max-h-14 object-contain object-left"
+            decoding="async"
+            fetchpriority="high"
+          />
+        </a>
+        <div class="hidden md:flex items-center gap-8">
+          <a href="/" class:list={['text-sm font-medium transition-colors focus-visible-link', activeNav === 'inicio' ? 'text-[var(--primary-dark)]' : 'hover:text-[var(--primary-dark)]']}>Inicio</a>
+          <a href="/nosotros" class:list={['text-sm font-medium transition-colors focus-visible-link', activeNav === 'nosotros' ? 'text-[var(--primary-dark)]' : 'hover:text-[var(--primary-dark)]']}>Nosotros</a>
+          <a href="/servicios" class:list={['text-sm font-medium transition-colors focus-visible-link', activeNav === 'servicios' ? 'text-[var(--primary-dark)]' : 'hover:text-[var(--primary-dark)]']}>Servicios</a>
+          <a href="/#contacto" class="px-5 py-2 bg-[var(--primary-dark)] text-white rounded-full text-sm font-medium hover:bg-[#1C1D1D] transition-all shadow-sm focus-visible-btn">Contactar</a>
+        </div>
+        <button
+          type="button"
+          id="menu-toggle"
+          class="md:hidden p-2 rounded-lg hover:bg-slate-100 transition-colors"
+          aria-expanded="false"
+          aria-label="Abrir menú"
+          aria-controls="mobile-menu"
+        >
+          <span id="icon-menu" class="block"><i data-lucide="menu" class="w-6 h-6" aria-hidden="true"></i></span>
+          <span id="icon-close" class="hidden"><i data-lucide="x" class="w-6 h-6" aria-hidden="true"></i></span>
+        </button>
+      </div>
+      <div
+        id="mobile-menu"
+        class="mobile-menu md:hidden absolute top-full left-0 right-0 bg-white border-b border-slate-100 shadow-lg overflow-hidden"
+        aria-hidden="true"
+        role="dialog"
+        aria-label="Menú de navegación"
+      >
+        <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-1">
+          <a href="/" class:list={['nav-link-mobile py-3 px-4 rounded-xl text-base font-medium transition-colors focus-visible-link', activeNav === 'inicio' ? 'text-[var(--primary-dark)] bg-[#F8C16D]/15' : 'text-slate-700 hover:bg-slate-50 hover:text-[var(--primary-dark)]']}>Inicio</a>
+          <a href="/nosotros" class:list={['nav-link-mobile py-3 px-4 rounded-xl text-base font-medium transition-colors focus-visible-link', activeNav === 'nosotros' ? 'text-[var(--primary-dark)] bg-[#F8C16D]/15' : 'text-slate-700 hover:bg-slate-50 hover:text-[var(--primary-dark)]']}>Nosotros</a>
+          <a href="/servicios" class:list={['nav-link-mobile py-3 px-4 rounded-xl text-base font-medium transition-colors focus-visible-link', activeNav === 'servicios' ? 'text-[var(--primary-dark)] bg-[#F8C16D]/15' : 'text-slate-700 hover:bg-slate-50 hover:text-[var(--primary-dark)]']}>Servicios</a>
+          <a href="/#contacto" class="nav-link-mobile py-3 px-4 rounded-xl text-base font-medium text-white bg-[var(--primary-dark)] hover:bg-[#1C1D1D] transition-colors text-center mt-2 focus-visible-btn">Contactar</a>
+        </div>
+      </div>
+    </nav>
+
+    <main class={contentClass}>
+      <slot />
+    </main>
+
+    <footer class="footer-bg footer-border-top footer-typography pt-20 pb-10">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-12 mb-16">
+          <div class="col-span-2 md:col-span-1">
+            <a href="/" class="inline-block mb-6 focus-visible-link">
+              <img
+                src={logo.src}
+                alt="Logo Aprendizaje Interactivo SAS - Volver al inicio"
+                class="w-44 sm:w-56 md:w-64 lg:w-72 h-auto object-contain object-left"
+              />
+            </a>
+            <p class="footer-desc mb-6 text-center">
+              Cambiamos vidas a través de la transformación digital y la generación de procesos de formación.
+            </p>
+            <div class="flex gap-4 justify-center">
+              <a href="https://www.linkedin.com/company/aprendizaje-interactivo-sas/posts/?feedView=all" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn de Aprendizaje Interactivo" class="w-9 h-9 bg-white/90 rounded-full flex items-center justify-center hover:bg-[var(--primary)] hover:text-white transition-all shadow-sm text-current focus-visible-btn">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19ZM8.34 10.6H5.67V18H8.34V10.6ZM7 6.33A1.55 1.55 0 1 0 7 9.43A1.55 1.55 0 1 0 7 6.33ZM18.33 13.92C18.33 11.7 17.85 10 15.26 10C14.01 10 13.17 10.69 12.83 11.34H12.79V10.6H10.24V18H12.9V14.33C12.9 13.36 13.08 12.43 14.28 12.43C15.46 12.43 15.47 13.54 15.47 14.39V18H18.13V13.46C18.13 13.31 18.2 14.06 18.33 13.92Z"/>
+                </svg>
+              </a>
+              <a href="https://www.tiktok.com/@ainteractivo_" target="_blank" rel="noopener noreferrer" aria-label="TikTok de Aprendizaje Interactivo" class="w-9 h-9 bg-white/90 rounded-full flex items-center justify-center hover:bg-[var(--primary)] hover:text-white transition-all shadow-sm text-current focus-visible-btn">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                </svg>
+              </a>
+              <a href="https://www.instagram.com/ainteractivo_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram de Aprendizaje Interactivo" class="w-9 h-9 bg-white/90 rounded-full flex items-center justify-center hover:bg-[var(--primary)] hover:text-white transition-all shadow-sm text-current focus-visible-btn">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M7.75 2H16.25C19.42 2 22 4.58 22 7.75V16.25C22 19.42 19.42 22 16.25 22H7.75C4.58 22 2 19.42 2 16.25V7.75C2 4.58 4.58 2 7.75 2ZM7.57 4C5.6 4 4 5.6 4 7.57V16.43C4 18.4 5.6 20 7.57 20H16.43C18.4 20 20 18.4 20 16.43V7.57C20 5.6 18.4 4 16.43 4H7.57ZM17.3 5.5A1.2 1.2 0 1 1 17.3 7.9A1.2 1.2 0 0 1 17.3 5.5ZM12 7C14.76 7 17 9.24 17 12C17 14.76 14.76 17 12 17C9.24 17 7 14.76 7 12C7 9.24 9.24 7 12 7ZM12 9C10.34 9 9 10.34 9 12C9 13.66 10.34 15 12 15C13.66 15 15 13.66 15 12C15 10.34 13.66 9 12 9Z"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div>
+            <h4 class="footer-title">Empresa</h4>
+            <ul class="footer-links space-y-3">
+              <li><a href="/nosotros" class="transition-colors focus-visible-link">Sobre Nosotros</a></li>
+              <li><a href="/servicios" class="transition-colors focus-visible-link">Servicios</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="footer-title">Servicios</h4>
+            <ul class="footer-links space-y-3">
+              <li><a href="/servicios" class="transition-colors focus-visible-link">Desarrollo LMS</a></li>
+              <li><a href="/servicios" class="transition-colors focus-visible-link">Simuladores 3D</a></li>
+              <li><a href="/servicios" class="transition-colors focus-visible-link">Contenido SCORM</a></li>
+              <li><a href="/servicios" class="transition-colors focus-visible-link">Software a Medida</a></li>
+            </ul>
+          </div>
+          <div class="min-w-0 sm:min-w-[280px]">
+            <h4 class="footer-title">Contacto</h4>
+            <ul class="footer-contact space-y-3">
+              <li class="flex items-start gap-3"><i data-lucide="mail" class="w-4 h-4 text-[var(--primary-dark)] shrink-0 mt-0.5" aria-hidden="true"></i> <a href={`mailto:${contact.email}`} class="hover:text-[var(--primary-dark)] transition-colors focus-visible-link whitespace-nowrap">{contact.email}</a></li>
+              <li class="flex items-start gap-3"><i data-lucide="phone" class="w-4 h-4 text-[var(--primary-dark)] shrink-0 mt-0.5" aria-hidden="true"></i> {contact.phone}</li>
+              <li class="flex items-start gap-3"><i data-lucide="map-pin" class="w-4 h-4 text-[var(--primary-dark)] shrink-0 mt-0.5" aria-hidden="true"></i> {contact.city}</li>
+            </ul>
+          </div>
+        </div>
+        <div class="pt-8 border-t footer-divider flex flex-col md:flex-row justify-between items-center gap-4 footer-legal">
+          <p class="text-center w-full md:w-auto text-sm text-slate-600">© 2026 Aprendizaje Interactivo SAS. Todos los derechos reservados.</p>
+          <div class="flex gap-6">
+            <a href="#" class="transition-colors focus-visible-link text-sm">Privacidad</a>
+            <a href="#" class="transition-colors focus-visible-link text-sm">Términos</a>
+            <a href="#" class="transition-colors focus-visible-link text-sm">Cookies</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="../scripts/main.js"></script>
+  </body>
+</html>

@@ -1,261 +1,138 @@
 ---
-import '../styles/global.css';
 import HeroSection from '../components/HeroSection.astro';
 import AboutSection from '../components/AboutSection.astro';
 import ServicesSection from '../components/ServicesSection.astro';
 import ContactSection from '../components/ContactSection.astro';
 import WhyUsItem from '../components/WhyUsItem.astro';
 import TestimonialCard from '../components/TestimonialCard.astro';
-import { favicon, logo } from '../data/images';
-import { contact, whyUs, testimonials } from '../data';
-
-const baseUrl = Astro.site ?? 'https://www.aprendizajeinteractivo.com';
-const canonicalUrl = `${baseUrl}/`;
-const ogImageUrl = new URL(logo.src, baseUrl).href;
-const ogTitle = 'Aprendizaje Interactivo SAS | Innovación en Tecnología Educativa';
-const ogDescription = 'Software educativo, LMS, simuladores y capacitación corporativa en Colombia. Plataformas educativas, contenido SCORM y soluciones tecnológicas para empresas e instituciones.';
+import MainLayout from '../layouts/MainLayout.astro';
+import { whyUs, testimonials } from '../data';
 ---
 
-<!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Aprendizaje Interactivo SAS | Innovación en Tecnología Educativa</title>
-    <meta
-      name="description"
-      content={ogDescription}
-    />
-    <link rel="canonical" href={canonicalUrl} />
+<MainLayout
+  title="Aprendizaje Interactivo SAS | Innovación en Tecnología Educativa"
+  description="Software educativo, LMS, simuladores y capacitación corporativa en Colombia. Plataformas educativas, contenido SCORM y soluciones tecnológicas para empresas e instituciones."
+  canonicalPath="/"
+  activeNav="inicio"
+  contentClass="pt-0"
+>
+  <HeroSection />
 
-    <!-- Favicon: múltiples formatos para compatibilidad -->
-    <link rel="icon" type="image/webp" href={favicon.src} sizes="32x32" />
-    <link rel="icon" type="image/webp" href={favicon.src} sizes="16x16" />
-    <link rel="apple-touch-icon" href={favicon.src} />
+  <!-- Stats futuristas -->
+  <section class="border-y border-[#595B5B]/40 bg-[#1C1D1D] py-14 relative overflow-hidden">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_rgba(238,118,1,0.14)_0%,_transparent_70%)]"></div>
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
 
-    <!-- Open Graph -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:title" content={ogTitle} />
-    <meta property="og:description" content={ogDescription} />
-    <meta property="og:image" content={ogImageUrl} />
-    <meta property="og:locale" content="es_CO" />
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content={canonicalUrl} />
-    <meta name="twitter:title" content={ogTitle} />
-    <meta name="twitter:description" content={ogDescription} />
-    <meta name="twitter:image" content={ogImageUrl} />
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- Lucide: iconos (defer para no bloquear). GSAP/ScrollTrigger se cargan tras la primera interacción para aligerar la carga en móvil. -->
-    <script src="https://unpkg.com/lucide@latest" defer></script>
-  </head>
-  <body class="bg-[#fafafa] text-slate-900 font-inter antialiased overflow-x-hidden">
-    <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100" aria-label="Navegación principal">
-      <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        <a href="#inicio" class="flex items-center shrink-0 focus-visible-link">
-          <img
-            src={logo.src}
-            alt="Logo Aprendizaje Interactivo SAS - Ir al inicio"
-            class="w-36 h-auto sm:w-44 md:w-52 lg:w-60 max-h-14 object-contain object-left"
-            decoding="async"
-            fetchpriority="high"
-          />
-        </a>
-        <div class="hidden md:flex items-center gap-8">
-          <a href="#inicio" class="text-sm font-medium hover:text-blue-600 transition-colors focus-visible-link">Inicio</a>
-          <a href="#nosotros" class="text-sm font-medium hover:text-blue-600 transition-colors focus-visible-link">Nosotros</a>
-          <a href="#servicios" class="text-sm font-medium hover:text-blue-600 transition-colors focus-visible-link">Servicios</a>
-          <a href="#contacto" class="px-5 py-2 bg-blue-600 text-white rounded-full text-sm font-medium hover:bg-blue-700 transition-all shadow-sm focus-visible-btn">Contactar</a>
+        <div class="stat-card relative bg-white/[0.03] border border-[#EE7601]/20 rounded-2xl p-6 flex flex-col items-center gap-3">
+          <span class="absolute top-3 right-3 w-1.5 h-1.5 rounded-full bg-[#EE7601] animate-pulse"></span>
+          <div class="stat-icon-box w-12 h-12 rounded-xl bg-[#EE7601]/10 border border-[#EE7601]/20 flex items-center justify-center text-[#EE7601] text-2xl">
+            <i class="ph ph-seal-check" aria-hidden="true"></i>
+          </div>
+          <p class="stat-value text-2xl font-semibold text-slate-100 tracking-tight">ISO</p>
+          <p class="text-xs text-slate-400 font-medium tracking-wide text-center">Calidad Certificada</p>
         </div>
-        <button
-          type="button"
-          id="menu-toggle"
-          class="md:hidden p-2 rounded-lg hover:bg-slate-100 transition-colors"
-          aria-expanded="false"
-          aria-label="Abrir menú"
-          aria-controls="mobile-menu"
-        >
-          <span id="icon-menu" class="block"><i data-lucide="menu" class="w-6 h-6" aria-hidden="true"></i></span>
-          <span id="icon-close" class="hidden"><i data-lucide="x" class="w-6 h-6" aria-hidden="true"></i></span>
-        </button>
-      </div>
-      <!-- Menú móvil -->
-      <div
-        id="mobile-menu"
-        class="mobile-menu md:hidden absolute top-full left-0 right-0 bg-white border-b border-slate-100 shadow-lg overflow-hidden"
-        aria-hidden="true"
-        role="dialog"
-        aria-label="Menú de navegación"
-      >
-        <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-1">
-          <a href="#inicio" class="nav-link-mobile py-3 px-4 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors focus-visible-link">Inicio</a>
-          <a href="#nosotros" class="nav-link-mobile py-3 px-4 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors focus-visible-link">Nosotros</a>
-          <a href="#servicios" class="nav-link-mobile py-3 px-4 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors focus-visible-link">Servicios</a>
-          <a href="#contacto" class="nav-link-mobile py-3 px-4 rounded-xl text-base font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors text-center mt-2 focus-visible-btn">Contactar</a>
+
+        <div class="stat-card relative bg-white/[0.03] border border-[#F8C16D]/20 rounded-2xl p-6 flex flex-col items-center gap-3">
+          <span class="absolute top-3 right-3 w-1.5 h-1.5 rounded-full bg-[#F8C16D] animate-pulse"></span>
+          <div class="stat-icon-box w-12 h-12 rounded-xl bg-[#F8C16D]/10 border border-[#F8C16D]/20 flex items-center justify-center text-[#F8C16D] text-2xl">
+            <i class="ph ph-lightning" aria-hidden="true"></i>
+          </div>
+          <p class="stat-value text-2xl font-semibold text-slate-100 tracking-tight">100%</p>
+          <p class="text-xs text-slate-400 font-medium tracking-wide text-center">Agilidad Digital</p>
         </div>
-      </div>
-    </nav>
 
-    <HeroSection />
-
-    <!-- Stats -->
-    <section class="border-y border-slate-100 bg-white py-12">
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="flex flex-wrap justify-between items-center gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-          <div class="flex items-center gap-2 font-bold text-lg"><i data-lucide="shield-check" class="text-blue-600" aria-hidden="true"></i> Calidad Certificada</div>
-          <div class="flex items-center gap-2 font-bold text-lg"><i data-lucide="zap" class="text-orange-500" aria-hidden="true"></i> Agilidad Digital</div>
-          <div class="flex items-center gap-2 font-bold text-lg"><i data-lucide="globe" class="text-blue-400" aria-hidden="true"></i> Alcance Regional</div>
-          <div class="flex items-center gap-2 font-bold text-lg"><i data-lucide="users" class="text-emerald-500" aria-hidden="true"></i> +100 Clientes</div>
+        <div class="stat-card relative bg-white/[0.03] border border-[#595B5B]/30 rounded-2xl p-6 flex flex-col items-center gap-3">
+          <span class="absolute top-3 right-3 w-1.5 h-1.5 rounded-full bg-[#595B5B] animate-pulse"></span>
+          <div class="stat-icon-box w-12 h-12 rounded-xl bg-[#595B5B]/20 border border-[#595B5B]/30 flex items-center justify-center text-[#F8C16D] text-2xl">
+            <i class="ph ph-globe-hemisphere-west" aria-hidden="true"></i>
+          </div>
+          <p class="stat-value text-2xl font-semibold text-slate-100 tracking-tight">COL</p>
+          <p class="text-xs text-slate-400 font-medium tracking-wide text-center">Alcance Regional</p>
         </div>
+
+        <div class="stat-card relative bg-white/[0.03] border border-[#EE7601]/15 rounded-2xl p-6 flex flex-col items-center gap-3">
+          <span class="absolute top-3 right-3 w-1.5 h-1.5 rounded-full bg-[#EE7601] animate-pulse"></span>
+          <div class="stat-icon-box w-12 h-12 rounded-xl bg-[#EE7601]/10 border border-[#EE7601]/20 flex items-center justify-center text-[#EE7601] text-2xl">
+            <i class="ph ph-users-three" aria-hidden="true"></i>
+          </div>
+          <p class="stat-value text-2xl font-semibold text-slate-100 tracking-tight">+100</p>
+          <p class="text-xs text-slate-400 font-medium tracking-wide text-center">Clientes</p>
+        </div>
+
       </div>
-    </section>
+    </div>
+  </section>
 
-    <AboutSection />
+  <AboutSection />
 
-    <ServicesSection />
+  <ServicesSection />
 
-    <!-- Why Choose Us -->
-    <section class="py-24 bg-slate-900 text-white overflow-hidden relative">
-      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_rgba(37,99,235,0.15)_0%,_transparent_70%)]"></div>
-      <div class="max-w-7xl mx-auto px-6 relative z-10">
-        <div class="grid lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <h2 class="section-label-on-dark font-bold uppercase tracking-widest text-sm mb-4">¿Por qué elegirnos?</h2>
-            <h3 class="text-4xl lg:text-5xl font-bold mb-8 leading-tight text-white">Lideramos el cambio hacia el futuro educativo</h3>
-            <div class="space-y-8">
-              {whyUs.map((item) => (
-                <WhyUsItem item={item} />
-              ))}
+  <!-- Why Choose Us -->
+  <section class="py-24 bg-[#1C1D1D] text-white overflow-hidden relative">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_rgba(238,118,1,0.14)_0%,_transparent_70%)]"></div>
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div>
+          <h2 class="section-label-on-dark font-bold uppercase tracking-widest text-sm mb-4">¿Por qué elegirnos?</h2>
+          <h3 class="text-4xl lg:text-5xl font-bold mb-8 leading-tight text-white">Lideramos el cambio hacia el futuro educativo</h3>
+          <div class="space-y-8">
+            {whyUs.map((item) => (
+              <WhyUsItem item={item} />
+            ))}
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="space-y-4 pt-12">
+            <div class="dark-section-card bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-3xl">
+              <div class="dark-section-card-icon w-12 h-12 rounded-xl bg-[#EE7601]/10 border border-[#EE7601]/20 flex items-center justify-center mb-4">
+                <i data-lucide="cpu" class="w-6 h-6 text-[#F8C16D]" aria-hidden="true"></i>
+              </div>
+              <h4 class="font-bold text-xl mb-2 text-white">Simuladores</h4>
+              <p class="text-slate-300 text-sm">Entornos seguros de práctica profesional.</p>
+            </div>
+            <div class="dark-section-card bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-3xl">
+              <div class="dark-section-card-icon w-12 h-12 rounded-xl bg-[#EE7601]/10 border border-[#EE7601]/20 flex items-center justify-center mb-4">
+                <i data-lucide="layers" class="w-6 h-6 text-[#595B5B]" aria-hidden="true"></i>
+              </div>
+              <h4 class="font-bold text-xl mb-2 text-white">LMS Pro</h4>
+              <p class="text-slate-300 text-sm">Gestión total del aprendizaje.</p>
             </div>
           </div>
-          <div class="grid grid-cols-2 gap-4">
-            <div class="space-y-4 pt-12">
-              <div class="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-3xl dark-section-card">
-                <i data-lucide="cpu" class="w-10 h-10 text-blue-400 mb-4" aria-hidden="true"></i>
-                <h4 class="font-bold text-xl mb-2 text-white">Simuladores</h4>
-                <p class="text-slate-300 text-sm">Entornos seguros de práctica profesional.</p>
+          <div class="space-y-4">
+            <div class="dark-section-card bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-3xl">
+              <div class="dark-section-card-icon w-12 h-12 rounded-xl bg-[#EE7601]/10 border border-[#EE7601]/20 flex items-center justify-center mb-4">
+                <i data-lucide="code-2" class="w-6 h-6 text-[#EE7601]" aria-hidden="true"></i>
               </div>
-              <div class="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-3xl dark-section-card">
-                <i data-lucide="layers" class="w-10 h-10 text-emerald-400 mb-4" aria-hidden="true"></i>
-                <h4 class="font-bold text-xl mb-2 text-white">LMS Pro</h4>
-                <p class="text-slate-300 text-sm">Gestión total del aprendizaje.</p>
-              </div>
+              <h4 class="font-bold text-xl mb-2 text-white">Software</h4>
+              <p class="text-slate-300 text-sm">Código escalable y de alta calidad.</p>
             </div>
-            <div class="space-y-4">
-              <div class="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-3xl dark-section-card">
-                <i data-lucide="code-2" class="w-10 h-10 text-orange-400 mb-4" aria-hidden="true"></i>
-                <h4 class="font-bold text-xl mb-2 text-white">Software</h4>
-                <p class="text-slate-300 text-sm">Código escalable y de alta calidad.</p>
+            <div class="dark-section-card backdrop-blur-sm border border-[#F8C16D]/35 p-8 rounded-3xl bg-[#EE7601]/10">
+              <div class="dark-section-card-icon w-12 h-12 rounded-xl bg-[#F8C16D]/10 border border-[#F8C16D]/25 flex items-center justify-center mb-4">
+                <i data-lucide="sparkles" class="w-6 h-6 text-[#F8C16D]" aria-hidden="true"></i>
               </div>
-              <div class="bg-white/10 backdrop-blur-sm border border-blue-500/30 p-8 rounded-3xl bg-blue-500/5 dark-section-card">
-                <i data-lucide="sparkles" class="w-10 h-10 text-white mb-4" aria-hidden="true"></i>
-                <h4 class="font-bold text-xl mb-2 text-white">Innovación</h4>
-                <p class="text-slate-200 text-sm">A la vanguardia de tendencias.</p>
-              </div>
+              <h4 class="font-bold text-xl mb-2 text-white">Innovación</h4>
+              <p class="text-slate-200 text-sm">A la vanguardia de tendencias.</p>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Testimonials -->
-    <section class="py-24 bg-white overflow-hidden">
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="text-center mb-16">
-          <h2 class="text-3xl font-bold text-slate-900">Lo que dicen nuestros clientes</h2>
-        </div>
-        <div class="flex gap-8 animate-scroll w-max">
-          {[...testimonials, ...testimonials].map((testimonial) => (
-            <TestimonialCard testimonial={testimonial} />
-          ))}
-        </div>
+  <!-- Testimonials -->
+  <section class="py-24 bg-white overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl font-bold text-slate-900">Lo que dicen nuestros clientes</h2>
       </div>
-    </section>
-
-    <ContactSection />
-
-    <!-- Footer -->
-    <footer class="footer-bg footer-border-top footer-typography pt-20 pb-10">
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-12 mb-16">
-          <div class="col-span-2 md:col-span-1">
-            <a href="#inicio" class="inline-block mb-6 focus-visible-link">
-              <img
-                src={logo.src}
-                alt="Logo Aprendizaje Interactivo SAS - Volver al inicio"
-                class="w-44 sm:w-56 md:w-64 lg:w-72 h-auto object-contain object-left"
-              />
-            </a>
-            <p class="footer-desc mb-6 text-center">
-              Cambiamos vidas a través de la transformación digital y la generación de procesos de formación.
-            </p>
-            <div class="flex gap-4 justify-center">
-              <a href="https://www.linkedin.com/company/aprendizaje-interactivo-sas/posts/?feedView=all" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn de Aprendizaje Interactivo" class="w-9 h-9 bg-white/90 rounded-full flex items-center justify-center hover:bg-[var(--primary)] hover:text-white transition-all shadow-sm text-current focus-visible-btn">
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19ZM8.34 10.6H5.67V18H8.34V10.6ZM7 6.33A1.55 1.55 0 1 0 7 9.43A1.55 1.55 0 1 0 7 6.33ZM18.33 13.92C18.33 11.7 17.85 10 15.26 10C14.01 10 13.17 10.69 12.83 11.34H12.79V10.6H10.24V18H12.9V14.33C12.9 13.36 13.08 12.43 14.28 12.43C15.46 12.43 15.47 13.54 15.47 14.39V18H18.13V13.46C18.13 13.31 18.2 14.06 18.33 13.92Z"/>
-                </svg>
-              </a>              <a href="https://www.tiktok.com/@ainteractivo_" target="_blank" rel="noopener noreferrer" aria-label="TikTok de Aprendizaje Interactivo" class="w-9 h-9 bg-white/90 rounded-full flex items-center justify-center hover:bg-[var(--primary)] hover:text-white transition-all shadow-sm text-current focus-visible-btn">
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
-                </svg>
-              </a>
-              <a href="https://www.instagram.com/ainteractivo_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram de Aprendizaje Interactivo" class="w-9 h-9 bg-white/90 rounded-full flex items-center justify-center hover:bg-[var(--primary)] hover:text-white transition-all shadow-sm text-current focus-visible-btn">
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M7.75 2H16.25C19.42 2 22 4.58 22 7.75V16.25C22 19.42 19.42 22 16.25 22H7.75C4.58 22 2 19.42 2 16.25V7.75C2 4.58 4.58 2 7.75 2ZM7.57 4C5.6 4 4 5.6 4 7.57V16.43C4 18.4 5.6 20 7.57 20H16.43C18.4 20 20 18.4 20 16.43V7.57C20 5.6 18.4 4 16.43 4H7.57ZM17.3 5.5A1.2 1.2 0 1 1 17.3 7.9A1.2 1.2 0 0 1 17.3 5.5ZM12 7C14.76 7 17 9.24 17 12C17 14.76 14.76 17 12 17C9.24 17 7 14.76 7 12C7 9.24 9.24 7 12 7ZM12 9C10.34 9 9 10.34 9 12C9 13.66 10.34 15 12 15C13.66 15 15 13.66 15 12C15 10.34 13.66 9 12 9Z"/>
-                </svg>
-              </a>            
-            </div>
-          </div>
-          <div>
-            <h4 class="footer-title">Empresa</h4>
-            <ul class="footer-links space-y-3">
-              <li><a href="#nosotros" class="transition-colors focus-visible-link">Sobre Nosotros</a></li>
-              <li><a href="#servicios" class="transition-colors focus-visible-link">Servicios</a></li>
-              <li><a href="#" class="transition-colors focus-visible-link">Proyectos</a></li>
-              <li><a href="#" class="transition-colors focus-visible-link">Blog</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 class="footer-title">Servicios</h4>
-            <ul class="footer-links space-y-3">
-              <li><a href="#" class="transition-colors focus-visible-link">Desarrollo LMS</a></li>
-              <li><a href="#" class="transition-colors focus-visible-link">Simuladores 3D</a></li>
-              <li><a href="#" class="transition-colors focus-visible-link">Contenido SCORM</a></li>
-              <li><a href="#" class="transition-colors focus-visible-link">Software a Medida</a></li>
-            </ul>
-          </div>
-          <div class="min-w-0 sm:min-w-[280px]">
-            <h4 class="footer-title">Contacto</h4>
-            <ul class="footer-contact space-y-3">
-              <li class="flex items-start gap-3"><i data-lucide="mail" class="w-4 h-4 text-[var(--primary-dark)] shrink-0 mt-0.5" aria-hidden="true"></i> <a href={`mailto:${contact.email}`} class="hover:text-[var(--primary-dark)] transition-colors focus-visible-link whitespace-nowrap">{contact.email}</a></li>
-              <li class="flex items-start gap-3"><i data-lucide="phone" class="w-4 h-4 text-[var(--primary-dark)] shrink-0 mt-0.5" aria-hidden="true"></i> {contact.phone}</li>
-              <li class="flex items-start gap-3"><i data-lucide="map-pin" class="w-4 h-4 text-[var(--primary-dark)] shrink-0 mt-0.5" aria-hidden="true"></i> {contact.city}</li>
-            </ul>
-          </div>
-        </div>
-        <div class="pt-8 border-t footer-divider flex flex-col md:flex-row justify-between items-center gap-4 footer-legal">
-          <p class="text-center w-full md:w-auto text-sm text-slate-600">© 2026 Aprendizaje Interactivo SAS. Todos los derechos reservados.</p>
-          <div class="flex gap-6">
-            <a href="#" class="transition-colors focus-visible-link text-sm">Privacidad</a>
-            <a href="#" class="transition-colors focus-visible-link text-sm">Términos</a>
-            <a href="#" class="transition-colors focus-visible-link text-sm">Cookies</a>
-          </div>
-        </div>
+      <div class="flex gap-8 animate-scroll w-max">
+        {[...testimonials, ...testimonials].map((testimonial) => (
+          <TestimonialCard testimonial={testimonial} />
+        ))}
       </div>
-    </footer>
-    <script src="../scripts/main.js">
-    </script>
-  </body>
-</html>
+    </div>
+  </section>
 
+  <ContactSection />
+</MainLayout>
