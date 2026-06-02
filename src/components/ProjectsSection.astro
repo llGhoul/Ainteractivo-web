@@ -1,0 +1,36 @@
+---
+import ProjectCard from './ProjectCard.astro';
+import { featuredProjects } from '../data/projects';
+---
+
+<section class="py-24 bg-slate-50" aria-labelledby="projects-preview-heading">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12">
+      <div class="max-w-2xl">
+        <p class="section-label text-sm font-bold uppercase tracking-widest mb-4" aria-hidden="true">
+          Proyectos
+        </p>
+        <h2 id="projects-preview-heading" class="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+          Casos que demuestran nuestro impacto
+        </h2>
+        <p class="text-slate-600 leading-relaxed">
+          Desarrollamos e-learning, plataformas y contenidos para sector público, telecomunicaciones y programas
+          territoriales en Colombia.
+        </p>
+      </div>
+      <a
+        href="/proyectos"
+        class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[var(--primary-dark)] text-white rounded-xl font-medium hover:bg-[#1C1D1D] transition-all shrink-0 focus-visible-btn"
+      >
+        Ver todos los proyectos
+        <i data-lucide="arrow-right" class="w-4 h-4" aria-hidden="true"></i>
+      </a>
+    </div>
+
+    <div class="space-y-8">
+      {featuredProjects.map((project) => (
+        <ProjectCard project={project} />
+      ))}
+    </div>
+  </div>
+</section>

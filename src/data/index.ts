@@ -5,3 +5,6 @@ export { contact } from './contact';
 export { services, type Service } from './services';
 export { whyUs, type WhyUsItem } from './whyUs';
 export { testimonials, type Testimonial } from './testimonials';
+export { partners, partnersWithCaseStudy, type Partner } from './partners';
+export { projects, featuredProjects, getProjectBySlug, type Project } from './projects';
+export { brand } from './brand';

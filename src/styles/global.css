@@ -388,3 +388,52 @@ button:focus-visible {
   color: #f8c16d;
   transition: color 0.3s ease;
 }
+
+/* Logos de aliados: contenedor alto para logos horizontales y verticales */
+.partner-logo-slot {
+  height: 6.75rem;
+  width: 100%;
+}
+@media (min-width: 640px) {
+  .partner-logo-slot {
+    height: 8rem;
+  }
+}
+@media (min-width: 1024px) {
+  .partner-logo-slot {
+    height: 9rem;
+  }
+}
+
+.partner-logo-img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  margin-inline: auto;
+  filter: grayscale(0.35) opacity(0.88);
+  transition:
+    filter 0.35s ease,
+    transform 0.35s ease;
+}
+
+.partner-logo-card:hover .partner-logo-img {
+  filter: grayscale(0) opacity(1);
+  transform: scale(1.03);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .partner-logo-img,
+  .partner-logo-card:hover .partner-logo-img {
+    transform: none;
+    transition: none;
+  }
+}
+
+.project-card-logo {
+  filter: grayscale(0.2) opacity(0.95);
+}
+.project-card:hover .project-card-logo {
+  filter: grayscale(0) opacity(1);
+}

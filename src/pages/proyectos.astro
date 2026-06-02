@@ -1,0 +1,38 @@
+---
+import ProjectCard from '../components/ProjectCard.astro';
+import ResourcesSection from '../components/ResourcesSection.astro';
+import MainLayout from '../layouts/MainLayout.astro';
+import { brand } from '../data/brand';
+import { projects } from '../data/projects';
+---
+
+<MainLayout
+  title="Proyectos | Aprendizaje Interactivo SAS"
+  description="Casos de éxito en e-learning, LMS y formación digital: Registraduría Nacional, Universidad Claro, Cultura del Agua y más."
+  canonicalPath="/proyectos"
+  activeNav="proyectos"
+>
+  <section class="pt-8 pb-12 sm:pb-16">
+    <div class="max-w-7xl mx-auto px-6">
+      <p class="section-label text-sm font-bold uppercase tracking-widest mb-4" aria-hidden="true">
+        Portafolio
+      </p>
+      <h1 class="text-4xl sm:text-5xl font-bold text-slate-900 mb-6 max-w-3xl">
+        Proyectos y soluciones que hemos desarrollado
+      </h1>
+      <p class="text-lg text-slate-600 leading-relaxed max-w-3xl">
+        {brand.strategicObjective}
+      </p>
+    </div>
+  </section>
+
+  <section class="pb-24">
+    <div class="max-w-7xl mx-auto px-6 space-y-10">
+      {projects.map((project) => (
+        <ProjectCard project={project} />
+      ))}
+    </div>
+  </section>
+
+  <ResourcesSection />
+</MainLayout>

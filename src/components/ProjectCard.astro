@@ -1,0 +1,77 @@
+---
+import type { Project } from '../data/projects';
+
+interface Props {
+  project: Project;
+  compact?: boolean;
+}
+
+const { project, compact = false } = Astro.props;
+---
+
+<article
+  id={project.slug}
+  class:list={[
+    'project-card scroll-mt-28 bg-white rounded-3xl border border-slate-100 overflow-hidden flex flex-col',
+    !compact && 'lg:flex-row',
+  ]}
+>
+  <div
+    class:list={[
+      'project-card-visual flex items-center justify-center bg-slate-50 border-b border-slate-100',
+      compact ? 'p-8 min-h-[10rem]' : 'lg:w-2/5 lg:border-b-0 lg:border-r p-10 min-h-[12rem] lg:min-h-0',
+    ]}
+  >
+    {project.clientLogo ? (
+      <img
+        src={project.clientLogo.src}
+        alt={`Logo de ${project.client}`}
+        width={project.clientLogo.width}
+        height={project.clientLogo.height}
+        class="project-card-logo max-h-16 sm:max-h-20 w-auto max-w-[85%] object-contain"
+        loading="lazy"
+        decoding="async"
+      />
+    ) : (
+      <div class="w-16 h-16 rounded-2xl bg-[#EE7601]/10 border border-[#EE7601]/20 flex items-center justify-center text-[#EE7601]">
+        <i data-lucide={project.icon} class="w-8 h-8" aria-hidden="true"></i>
+      </div>
+    )}
+  </div>
+
+  <div class:list={['flex flex-col p-6 sm:p-8', !compact && 'lg:w-3/5 lg:p-10']}>
+    <div class="flex flex-wrap items-center gap-2 mb-3">
+      <span class="text-xs font-semibold uppercase tracking-wider text-[var(--primary-dark)]">
+        {project.client}
+      </span>
+      <span class="text-slate-300" aria-hidden="true">·</span>
+      <span class="text-xs text-slate-500">{project.period}</span>
+    </div>
+
+    <h3 class="text-xl sm:text-2xl font-bold text-slate-900 mb-3">{project.title}</h3>
+    <p class="text-slate-600 leading-relaxed mb-5">{project.summary}</p>
+
+    <ul class="space-y-2 mb-6" role="list">
+      {project.highlights.map((item) => (
+        <li class="flex items-start gap-2 text-sm text-slate-600">
+          <i data-lucide="check-circle" class="w-4 h-4 text-[#EE7601] shrink-0 mt-0.5" aria-hidden="true"></i>
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+
+    <div class="flex flex-wrap gap-2 mb-6">
+      {project.tags.map((tag) => (
+        <span class="text-xs font-medium px-3 py-1 rounded-full bg-slate-100 text-slate-600">{tag}</span>
+      ))}
+    </div>
+
+    <a
+      href="/#contacto"
+      class="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-[var(--primary-dark)] hover:gap-3 transition-all focus-visible-link w-fit"
+    >
+      Consultar un proyecto similar
+      <i data-lucide="arrow-right" class="w-4 h-4" aria-hidden="true"></i>
+    </a>
+  </div>
+</article>

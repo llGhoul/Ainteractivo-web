@@ -1,0 +1,35 @@
+---
+import { brand } from '../data/brand';
+const { portfolioPdf } = brand;
+---
+
+<section class="py-16 sm:py-20 bg-white border-t border-slate-100" aria-labelledby="resources-heading">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="resources-card relative overflow-hidden rounded-3xl border border-[#EE7601]/20 bg-gradient-to-br from-[#F8C16D]/20 via-white to-[#fafafa] p-8 sm:p-10 lg:p-12">
+      <div
+        class="pointer-events-none absolute top-0 right-0 w-64 h-64 bg-[#EE7601]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4"
+        aria-hidden="true"
+      ></div>
+      <div class="relative z-10 grid lg:grid-cols-[1fr_auto] gap-8 items-center">
+        <div class="max-w-xl">
+          <p class="section-label text-sm font-bold uppercase tracking-widest mb-3" aria-hidden="true">
+            Recursos
+          </p>
+          <h2 id="resources-heading" class="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">
+            {portfolioPdf.title}
+          </h2>
+          <p class="text-slate-600 leading-relaxed mb-4">{portfolioPdf.description}</p>
+          <p class="text-sm text-slate-500">Documento PDF · descarga gratuita</p>
+        </div>
+        <a
+          href={portfolioPdf.href}
+          download={portfolioPdf.fileName}
+          class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-[var(--primary-dark)] text-white rounded-xl font-semibold hover:bg-[#1C1D1D] shadow-lg shadow-[#EE7601]/20 transition-all focus-visible-btn shrink-0"
+        >
+          <i data-lucide="download" class="w-5 h-5" aria-hidden="true"></i>
+          Descargar portafolio
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

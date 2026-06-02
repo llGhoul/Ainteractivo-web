@@ -7,7 +7,7 @@ interface Props {
   title: string;
   description: string;
   canonicalPath?: string;
-  activeNav?: 'inicio' | 'nosotros' | 'servicios';
+  activeNav?: 'inicio' | 'nosotros' | 'servicios' | 'proyectos';
   contentClass?: string;
 }
 
@@ -76,6 +76,7 @@ const ogImageUrl = new URL(logo.src, baseUrl).href;
           <a href="/" class:list={['text-sm font-medium transition-colors focus-visible-link', activeNav === 'inicio' ? 'text-[var(--primary-dark)]' : 'hover:text-[var(--primary-dark)]']}>Inicio</a>
           <a href="/nosotros" class:list={['text-sm font-medium transition-colors focus-visible-link', activeNav === 'nosotros' ? 'text-[var(--primary-dark)]' : 'hover:text-[var(--primary-dark)]']}>Nosotros</a>
           <a href="/servicios" class:list={['text-sm font-medium transition-colors focus-visible-link', activeNav === 'servicios' ? 'text-[var(--primary-dark)]' : 'hover:text-[var(--primary-dark)]']}>Servicios</a>
+          <a href="/proyectos" class:list={['text-sm font-medium transition-colors focus-visible-link', activeNav === 'proyectos' ? 'text-[var(--primary-dark)]' : 'hover:text-[var(--primary-dark)]']}>Proyectos</a>
           <a href="/#contacto" class="px-5 py-2 bg-[var(--primary-dark)] text-white rounded-full text-sm font-medium hover:bg-[#1C1D1D] transition-all shadow-sm focus-visible-btn">Contactar</a>
         </div>
         <button
@@ -101,6 +102,7 @@ const ogImageUrl = new URL(logo.src, baseUrl).href;
           <a href="/" class:list={['nav-link-mobile py-3 px-4 rounded-xl text-base font-medium transition-colors focus-visible-link', activeNav === 'inicio' ? 'text-[var(--primary-dark)] bg-[#F8C16D]/15' : 'text-slate-700 hover:bg-slate-50 hover:text-[var(--primary-dark)]']}>Inicio</a>
           <a href="/nosotros" class:list={['nav-link-mobile py-3 px-4 rounded-xl text-base font-medium transition-colors focus-visible-link', activeNav === 'nosotros' ? 'text-[var(--primary-dark)] bg-[#F8C16D]/15' : 'text-slate-700 hover:bg-slate-50 hover:text-[var(--primary-dark)]']}>Nosotros</a>
           <a href="/servicios" class:list={['nav-link-mobile py-3 px-4 rounded-xl text-base font-medium transition-colors focus-visible-link', activeNav === 'servicios' ? 'text-[var(--primary-dark)] bg-[#F8C16D]/15' : 'text-slate-700 hover:bg-slate-50 hover:text-[var(--primary-dark)]']}>Servicios</a>
+          <a href="/proyectos" class:list={['nav-link-mobile py-3 px-4 rounded-xl text-base font-medium transition-colors focus-visible-link', activeNav === 'proyectos' ? 'text-[var(--primary-dark)] bg-[#F8C16D]/15' : 'text-slate-700 hover:bg-slate-50 hover:text-[var(--primary-dark)]']}>Proyectos</a>
           <a href="/#contacto" class="nav-link-mobile py-3 px-4 rounded-xl text-base font-medium text-white bg-[var(--primary-dark)] hover:bg-[#1C1D1D] transition-colors text-center mt-2 focus-visible-btn">Contactar</a>
         </div>
       </div>
@@ -147,6 +149,7 @@ const ogImageUrl = new URL(logo.src, baseUrl).href;
             <ul class="footer-links space-y-3">
               <li><a href="/nosotros" class="transition-colors focus-visible-link">Sobre Nosotros</a></li>
               <li><a href="/servicios" class="transition-colors focus-visible-link">Servicios</a></li>
+              <li><a href="/proyectos" class="transition-colors focus-visible-link">Proyectos</a></li>
             </ul>
           </div>
           <div>

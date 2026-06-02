@@ -1,0 +1,91 @@
+---
+import { partners, partnersWithCaseStudy } from '../data/partners';
+import { getProjectBySlug } from '../data/projects';
+
+const otherPartners = partners.filter((p) => !p.projectSlug);
+---
+
+<section
+  class="partners-section border-y border-slate-200/80 bg-white py-12 sm:py-16"
+  aria-labelledby="partners-heading"
+>
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
+      <p class="section-label text-sm font-bold uppercase tracking-widest mb-3" aria-hidden="true">
+        Confían en nosotros
+      </p>
+      <h2 id="partners-heading" class="text-2xl sm:text-3xl font-bold text-slate-900">
+        Organizaciones con las que hemos trabajado
+      </h2>
+      <p class="mt-3 text-slate-600 text-sm sm:text-base">
+        Empresas e instituciones que confían en nuestras soluciones de software educativo y capacitación digital.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6 sm:gap-8 mb-10 sm:mb-12">
+      {partnersWithCaseStudy.map((partner) => {
+        const project = partner.projectSlug ? getProjectBySlug(partner.projectSlug) : undefined;
+        if (!project) return null;
+        return (
+          <article class="partner-case-card rounded-3xl border border-slate-100 bg-slate-50/80 overflow-hidden flex flex-col hover:border-[#EE7601]/25 hover:bg-white transition-colors">
+            <div class="flex items-center justify-center px-6 py-8 sm:py-10 border-b border-slate-100 bg-white min-h-[9rem] sm:min-h-[10rem]">
+              <div class="partner-logo-slot w-full flex items-center justify-center">
+                <img
+                  src={partner.logo.src}
+                  alt={partner.alt}
+                  width={partner.logo.width}
+                  height={partner.logo.height}
+                  class="partner-logo-img object-contain"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </div>
+            <div class="p-6 sm:p-8 flex flex-col flex-1">
+              <p class="text-xs font-semibold uppercase tracking-wider text-[var(--primary-dark)] mb-2">
+                {project.period}
+              </p>
+              <h3 class="text-lg sm:text-xl font-bold text-slate-900 mb-2">{project.title}</h3>
+              <p class="text-sm text-slate-600 leading-relaxed mb-4 flex-1">{project.summary}</p>
+              <a
+                href={`/proyectos#${project.slug}`}
+                class="inline-flex items-center gap-2 text-sm font-semibold text-[var(--primary-dark)] hover:gap-3 transition-all focus-visible-link w-fit"
+              >
+                Ver caso completo
+                <i data-lucide="arrow-right" class="w-4 h-4" aria-hidden="true"></i>
+              </a>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+
+    {otherPartners.length > 0 && (
+      <>
+        <p class="text-center text-sm font-medium text-slate-500 mb-6">También hemos trabajado con</p>
+        <ul
+          class="partners-grid grid grid-cols-2 gap-5 sm:gap-8 max-w-2xl mx-auto list-none p-0 m-0"
+          role="list"
+        >
+          {otherPartners.map((partner) => (
+            <li class="min-w-0">
+              <div class="partner-logo-card group flex items-center justify-center rounded-3xl border border-slate-100 bg-slate-50/80 px-5 py-8 sm:px-8 sm:py-12 min-h-[11rem] sm:min-h-[13rem] transition-colors hover:border-[#EE7601]/25 hover:bg-white">
+                <div class="partner-logo-slot w-full flex items-center justify-center">
+                  <img
+                    src={partner.logo.src}
+                    alt={partner.alt}
+                    width={partner.logo.width}
+                    height={partner.logo.height}
+                    class="partner-logo-img object-contain"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </>
+    )}
+  </div>
+</section>

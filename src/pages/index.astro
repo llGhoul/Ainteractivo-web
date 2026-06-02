@@ -1,22 +1,28 @@
 ---
 import HeroSection from '../components/HeroSection.astro';
+import PartnersSection from '../components/PartnersSection.astro';
 import AboutSection from '../components/AboutSection.astro';
 import ServicesSection from '../components/ServicesSection.astro';
+import ProjectsSection from '../components/ProjectsSection.astro';
+import ResourcesSection from '../components/ResourcesSection.astro';
 import ContactSection from '../components/ContactSection.astro';
 import WhyUsItem from '../components/WhyUsItem.astro';
 import TestimonialCard from '../components/TestimonialCard.astro';
 import MainLayout from '../layouts/MainLayout.astro';
+import { brand } from '../data/brand';
 import { whyUs, testimonials } from '../data';
 ---
 
 <MainLayout
-  title="Aprendizaje Interactivo SAS | Innovación en Tecnología Educativa"
-  description="Software educativo, LMS, simuladores y capacitación corporativa en Colombia. Plataformas educativas, contenido SCORM y soluciones tecnológicas para empresas e instituciones."
+  title={brand.meta.homeTitle}
+  description={brand.meta.homeDescription}
   canonicalPath="/"
   activeNav="inicio"
   contentClass="pt-0"
 >
   <HeroSection />
+
+  <PartnersSection />
 
   <!-- Stats futuristas -->
   <section class="border-y border-[#595B5B]/40 bg-[#1C1D1D] py-14 relative overflow-hidden">
@@ -67,6 +73,8 @@ import { whyUs, testimonials } from '../data';
   <AboutSection />
 
   <ServicesSection />
+
+  <ProjectsSection />
 
   <!-- Why Choose Us -->
   <section class="py-24 bg-[#1C1D1D] text-white overflow-hidden relative">
@@ -133,6 +141,8 @@ import { whyUs, testimonials } from '../data';
       </div>
     </div>
   </section>
+
+  <ResourcesSection />
 
   <ContactSection />
 </MainLayout>
