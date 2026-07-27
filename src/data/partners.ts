@@ -3,7 +3,7 @@
  */
 import type { ImageMetadata } from 'astro';
 import logoClaro from '../assets/images/Claro.webp';
-import logoEducatec from '../assets/images/Educatec.png';
+import logoEducatec from '../assets/images/Educatec.webp';
 import logoRegistraduria from '../assets/images/La_Registraduria_Nacional.webp';
 import logoTalentoTech from '../assets/images/TalentoTech.webp';
 

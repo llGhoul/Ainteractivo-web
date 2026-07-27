@@ -15,6 +15,9 @@ export default defineConfig({
   ],
   server: { port: 4321 },
   vite: {
+     server: {
+      allowedHosts: ['pecan-carded-moisten.ngrok-free.dev']
+     },
     build: {
       minify: 'terser',
       terserOptions: {
